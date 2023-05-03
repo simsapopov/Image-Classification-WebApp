@@ -1,4 +1,4 @@
-# Basic nginx dockerfile starting with Ubuntu 20.04
-FROM ubuntu:20.04
-RUN apt-get -y update
-RUN apt-get -y install nginx
+FROM openjdk:17-oracle
+EXPOSE 8080
+ADD demo-0.0.2-SNAPSHOT.jar app.jar
+ENTRYPOINT [“java”,“-jar”, “app.jar”]
