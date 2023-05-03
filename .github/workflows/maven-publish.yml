@@ -4,10 +4,8 @@
 name: Maven Package
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  release:
+    types: [created]
 jobs:
   publish:
     runs-on: ubuntu-latest
