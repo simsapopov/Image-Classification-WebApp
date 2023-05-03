@@ -1,4 +1,3 @@
-
 name: Docker
 on:
   push:
@@ -8,10 +7,21 @@ on:
 
 jobs:
   build-and-publish:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
+   runs-on: ubuntu-latest
+   steps:
+    - name: Check out the repo
       uses: actions/checkout@v3
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: maven
+          
+    - name: Build Java with Maven No Tests
+      run: |
+        mvn -B package -DskipTests --file pom.xml
+        cp /home/runner/work/IS/IS/target/demo-0.0.2-SNAPSHOT.jar .
     - name: Login to DockerHub
       uses: docker/login-action@v1
       with:
