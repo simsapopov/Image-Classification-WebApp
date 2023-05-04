@@ -24,6 +24,7 @@ class IcsApplicationTests {
 	public void setup() {
 		RestAssured.baseURI = "http://localhost";
 		RestAssured.port = 8079;
+
 	}
 
 	@Order(1)
