@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Classification Service</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Image Classification Service</h1>
+<form id="classificationForm">
+    <label for="imageUrl">Image URL:</label>
+    <input type="text" id="imageUrl" name="imageUrl">
+    <input type="submit" value="Submit">
+</form>
+<pre id="result"></pre>
+
+<script>
+    $(document).ready(function(){
+        $("#classificationForm").on("submit", function(event){
+            event.preventDefault();
+            var imageUrl = $("#imageUrl").val();
+            $.ajax({
+                url: "/api/v2/classify",
+                type: "POST",
+                data: imageUrl,
+                contentType: "text/plain",
+                success: function(result){
+                    $("#result").text(JSON.stringify(result, null, 2));
+
+                },
+                error: function(xhr, status, error){
+                    $("#result").text("Error: " + status + " " + error);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
