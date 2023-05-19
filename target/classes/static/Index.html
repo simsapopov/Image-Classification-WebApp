@@ -25,6 +25,7 @@
                 contentType: "text/plain",
                 success: function(result){
                     $("#result").text(JSON.stringify(result, null, 2));
+
                 },
                 error: function(xhr, status, error){
                     $("#result").text("Error: " + status + " " + error);

@@ -6,4 +6,5 @@ import java.awt.*;
 
 public interface ImagesRepository extends JpaRepository<Images, Long> {
     Images findByUrl(String url);
+    Images save(Images image);
 }
