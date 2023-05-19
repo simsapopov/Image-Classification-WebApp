@@ -7,21 +7,18 @@ import com.example.ics.Reposittory.TagRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class JsonParser {
     private final TagRepository tagRepository;
     private  final ImagesRepository imagesRepository;
-
-
-    public JsonParser(TagRepository tagRepository, ImagesRepository imagesRepository) {
-        this.tagRepository = tagRepository;
-
-        this.imagesRepository = imagesRepository;
-    }
+    private final ImagesService imageService;
+    private final TagService tagService;
     public String parseTagsToString(Long id) {
 
         StringBuilder Tags = new StringBuilder();
@@ -49,15 +46,7 @@ public class JsonParser {
             JsonObject tagObject = tagsArray.get(i).getAsJsonObject();
             String tag = tagObject.getAsJsonObject("tag").get("en").getAsString();
             double confidence = tagObject.get("confidence").getAsDouble();
-
-            Tag newTag = new Tag();
-            newTag.setId(ID);
-            newTag.setName(tag);
-            newTag.setConfidencePercentage(confidence);
-            newTag.setImage(imagesRepository.findByUrl(url));
-            tagRepository.save(newTag);
-
-
+            Tag NewTag = tagService.addTag(ID,tag,confidence,imageService.findImageByUrl(url));
             i++;
         }
     }

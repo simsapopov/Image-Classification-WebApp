@@ -16,13 +16,14 @@ public class TagService {
     public List<Tag> getAllTagsWithID(Long ID) {
         return tagRepository.findByimage_id(ID);
     }
-    public void addTag(long ID, String tag,double confidence,Images image){
+    public Tag addTag(long ID, String tag,double confidence,Images image){
         Tag newTag = new Tag();
         newTag.setId(ID);
         newTag.setName(tag);
         newTag.setConfidencePercentage(confidence);
         newTag.setImage(image);
         tagRepository.save(newTag);
+        return newTag;
     }
 
 

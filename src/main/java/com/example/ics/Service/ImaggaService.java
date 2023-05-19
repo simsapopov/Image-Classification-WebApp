@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class ImaggaService {
 
-    private final ImagesRepository imagesRepository;
+
     private final ImagesService imagesService;
     private final JsonParser jsonParser;
 
