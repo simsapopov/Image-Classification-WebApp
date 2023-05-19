@@ -1,30 +1,22 @@
-package com.example.ics.service;
-import com.example.ics.Entity.Tag;
-import com.example.ics.Reposittory.TagRepository;
+package com.example.ics.Service;
 import com.google.common.hash.Hashing;
 import com.example.ics.Entity.Images;
 import com.example.ics.Reposittory.ImagesRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class ImaggaService {
 
     private final ImagesRepository imagesRepository;
+    private final ImagesService imagesService;
+    private final JsonParser jsonParser;
 
-
-    private final ParseTagsFromJson parseTagsFromJson;
-
-    @Autowired
-    public ImaggaService(ImagesRepository imagesRepository, ParseTagsFromJson parseTagsFromJson) {
-        this.imagesRepository = imagesRepository;
-        this.parseTagsFromJson = parseTagsFromJson;
-    }
 
     @Value("${imagga.api.key}")
     private String apiKey;
@@ -33,16 +25,13 @@ public class ImaggaService {
     private String apiSecret;
 
     public String classifyImage(String imageUrl) {
-        Images image = imagesRepository.findByUrl(imageUrl);
-
+        Images image = imagesService.findImageByUrl(imageUrl);
+        long hashedUrl = (long) Hashing.murmur3_32().hashBytes(imageUrl.getBytes()).asInt();
         if (image != null) {
-            return parseTagsFromJson.parseTagsToString((long) Hashing.murmur3_32().hashBytes(imageUrl.getBytes()).asInt());
-        } else {
 
-            Images newImage= new Images();
-            newImage.setId((long) Hashing.murmur3_32().hashBytes(imageUrl.getBytes()).asInt());
-            newImage.setUrl(imageUrl);
-            imagesRepository.save(newImage);
+            return jsonParser.parseTagsToString(hashedUrl);
+        } else {
+            image= imagesService.saveImage(imageUrl,hashedUrl);
 
 
 
@@ -52,17 +41,14 @@ public class ImaggaService {
             HttpHeaders headers = new HttpHeaders();
             headers.setBasicAuth(apiKey, apiSecret);
             HttpEntity<String> entity = new HttpEntity<>(headers);
-
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-
             if (response.getStatusCode() == HttpStatus.OK) {
-
-                parseTagsFromJson.addTagsToDataBase(response.getBody(), newImage.getId(),imageUrl);
+                jsonParser.addTagsToDataBase(response.getBody(), image.getId(),imageUrl);
                 return response.getBody();
 
             } else {
-                // TODO handle error
-                return null;
+                return response.getStatusCode().toString();
+
             }
 
         }

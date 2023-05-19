@@ -1,6 +1,6 @@
 package com.example.ics;
 
-import com.example.ics.service.UserService;
+import com.example.ics.Service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

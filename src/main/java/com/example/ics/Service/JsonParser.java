@@ -1,4 +1,4 @@
-package com.example.ics.service;
+package com.example.ics.Service;
 
 import com.example.ics.Entity.Tag;
 import com.example.ics.Reposittory.ImagesRepository;
@@ -7,18 +7,17 @@ import com.example.ics.Reposittory.TagRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ParseTagsFromJson {
+public class JsonParser {
     private final TagRepository tagRepository;
     private  final ImagesRepository imagesRepository;
 
 
-    public ParseTagsFromJson(TagRepository tagRepository, ImagesRepository imagesRepository) {
+    public JsonParser(TagRepository tagRepository, ImagesRepository imagesRepository) {
         this.tagRepository = tagRepository;
 
         this.imagesRepository = imagesRepository;
