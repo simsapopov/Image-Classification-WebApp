@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
     List<Tag> findByimage_id(Long imageId);
+
 }
