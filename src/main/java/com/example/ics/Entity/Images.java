@@ -6,37 +6,37 @@ import java.util.List;
 
 @Entity
 public class Images {
-    @Id
-    private Long id;
-    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
-    private List<Tag> tags;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+  @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
+  private List<Tag> tags;
     // TODO @Basic
-    private String name;
+  private String name;
+  private String url;
 
-    private String url;
 
+  public Long getId() {
+    return id;
+  }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+  public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
+  public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }

@@ -1,4 +1,4 @@
-package com.example.ics.Service;
+package com.example.ics.service;
 
 public class ImageRepositoryService {
 }

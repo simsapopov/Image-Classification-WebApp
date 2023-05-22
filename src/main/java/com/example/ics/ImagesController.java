@@ -1,26 +1,25 @@
 package com.example.ics;
 
 import com.example.ics.Entity.Images;
-import com.example.ics.Service.ImagesService;
+import com.example.ics.service.ImagesService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/images")
 public class ImagesController {
-    private final ImagesService imagesService;
+  private final ImagesService imagesService;
 
-    @Autowired
+  @Autowired
     public ImagesController(ImagesService imagesService) {
-        this.imagesService = imagesService;
-    }
+    this.imagesService = imagesService;
+  }
 
-    @GetMapping
+  @GetMapping
     public List<Images> getAllImages() {
-        return imagesService.getAllImages();
-    }
+    return imagesService.getAllImages();
+  }
 }

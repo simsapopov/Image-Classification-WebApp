@@ -1,9 +1,7 @@
-package com.example.ics.Service;
-import com.google.common.hash.Hashing;
+package com.example.ics.service;
+
 import com.example.ics.Entity.Images;
-import com.example.ics.Reposittory.ImagesRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -12,10 +10,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class ImaggaService {
-
-
-    private final ImagesService imagesService;
-    private final JsonParser jsonParser;
+     private final ImagesService imagesService;
+     private final JsonParser jsonParser;
 
 
     @Value("${imagga.api.key}")
@@ -26,12 +22,11 @@ public class ImaggaService {
 
     public String classifyImage(String imageUrl) {
         Images image = imagesService.findImageByUrl(imageUrl);
-        long hashedUrl = (long) Hashing.murmur3_32().hashBytes(imageUrl.getBytes()).asInt();
         if (image != null) {
 
-            return jsonParser.parseTagsToString(hashedUrl);
+            return jsonParser.parseTagsToString(imagesService.getIdFromUrl(imageUrl));
         } else {
-            image= imagesService.saveImage(imageUrl,hashedUrl);
+            image= imagesService.saveImage(imageUrl);
 
 
 
@@ -43,8 +38,8 @@ public class ImaggaService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
-                jsonParser.addTagsToDataBase(response.getBody(), image.getId(),imageUrl);
-                return response.getBody();
+        jsonParser.addTagsToDataBase(response.getBody(), image.getId(),imageUrl);
+        return response.getBody();
 
             } else {
                 return response.getStatusCode().toString();

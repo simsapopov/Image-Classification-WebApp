@@ -1,10 +1,8 @@
-package com.example.ics.Service;
+package com.example.ics.service;
 
 import com.example.ics.Entity.Images;
 import com.example.ics.Reposittory.ImagesRepository;
-import com.google.common.hash.Hashing;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +19,9 @@ public class ImagesService {
     public Images findImageByUrl(String Url){
         return imagesRepository.findByUrl(Url);
     }
-    public Images saveImage(String imageUrl,Long ID){
+
+    public Images saveImage(String imageUrl){
         Images newImage= new Images();
-        newImage.setId(ID);
         newImage.setUrl(imageUrl);
         this.imagesRepository.save(newImage);
         return newImage;
