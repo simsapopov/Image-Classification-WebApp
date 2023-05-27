@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ImagesRepository extends JpaRepository<Images, Long> {
     Images findByUrl(String url);
+    Images findByid(Long id);
     Images save(Images image);
     List<Images> findByName(String name);
 }

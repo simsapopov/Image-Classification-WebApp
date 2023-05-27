@@ -29,7 +29,6 @@ public class TagService {
 
     public Tag addTag(long Id, String tag, double confidence, Images image){
     Tag newTag = new Tag();
-  //  newTag.setId(Id);
     newTag.setName(tag);
     newTag.setConfidencePercentage(confidence);
     newTag.setImage(image);
@@ -37,14 +36,17 @@ public class TagService {
     return newTag;
     }
 
+    public List<Long> findAllImagesWithTag(String tag){
+    return tagRepository.findImageIdsByTagName(tag);
+
+    }
+    public List<String> getAllUniqueTags(){
+    return tagRepository.findAllUniqueTags();
+    }
+
 
   public List<String> getAllTagNames() {
     List<String> list = new ArrayList<>();
-    list.add("Simsa");
-    list.add("Simsa");
-    list.add("Simsa");
-    list.add("Simsa");
-    list.add("Simsa");
     return list;
   }
 }

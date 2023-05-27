@@ -27,14 +27,18 @@ public class ImageClassificationController {
     public String classify(@RequestBody String imageUrl) {
     return imaggaService.classifyImage(imageUrl);
   }
-  @GetMapping("/tagPhoto")
-  public String tagPhoto(Model model) {
-
-    Images image = imagesService.findImageByUrl("https://m.netinfo.bg/media/images/32781/32781450/991-ratio-vlak.jpg"); // Replace with your method
-    List<String> tags = tagService.getAllTagNames(); // Replace with your method
-   // model.addAttribute("image", image);
-    model.addAttribute("tags", tagService.getAllTagNames());
-    return "tagPhoto";
+  @GetMapping("/getUniqueTags")
+  public List<String> getAllUniqueTags(){
+    return tagService.getAllUniqueTags();
 
   }
+
+  @PostMapping("/getimage")
+  public String getimagesfromtaag(@RequestBody String Tag) {
+    System.out.println("Simsa");
+    List<Images> img = imagesService.getAllImagesWithIdList(tagService.findAllImagesWithTag(Tag));
+    System.out.println(img.get(1).getUrl());
+   return imagesService.getAllImagesWithIdList(tagService.findAllImagesWithTag(Tag)).toString();
+  }
+
 }

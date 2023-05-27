@@ -5,6 +5,7 @@ import com.example.ics.Reposittory.ImagesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +16,17 @@ public class ImagesService {
 
     public List<Images> getAllImages() {
         return imagesRepository.findAll();
+    }
+    public Images getImageFromId(Long id){
+        return imagesRepository.findByid(id);
+    }
+    public List<Images> getAllImagesWithIdList(List<Long> id){
+        List<Images> images= new ArrayList<Images>();
+        for (int i = 0; i < id.size(); i++) {
+            images.add(getImageFromId(id.get(i)));
+        }
+        return images;
+
     }
     public String getAllImagesWithTags() {
         StringBuilder string = new StringBuilder();
