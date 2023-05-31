@@ -1,4 +1,4 @@
-package com.example.ics.service;
+package com.example.ics.Service;
 
 import com.example.ics.Entity.Images;
 import com.example.ics.Reposittory.ImagesRepository;

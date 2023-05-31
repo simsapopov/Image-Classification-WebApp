@@ -1,5 +1,6 @@
-package com.example.ics.service;
+package com.example.ics.Service;
 
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,17 +12,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+
 @Service
+@RequiredArgsConstructor
 public class ImgurService {
     @Value("${umgur.cliend.id}")
     private String ClientId;
-    public String uploadImage(String clientID) throws Exception {
+    private final JsonParser jsonParser;
+    public String uploadImage(String inputData) throws Exception {
+        if (inputData.startsWith("{\"imageUrl\":")) {
+            inputData = jsonParser.extractUrlFromJson(inputData);
+        } else {
+
+            inputData = inputData.substring(inputData.indexOf(",") + 1);
+
+
+        }
+        System.out.println(inputData);
         URL url;
         url = new URL("https://api.imgur.com/3/image");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         String data = URLEncoder.encode("image", "UTF-8") + "="
-                + URLEncoder.encode(clientID, "UTF-8");
+                + URLEncoder.encode(inputData, "UTF-8");
 
         conn.setDoOutput(true);
         conn.setDoInput(true);
@@ -43,10 +56,13 @@ public class ImgurService {
         while ((line = rd.readLine()) != null) {
             stb.append(line).append("\n");
         }
+
         wr.close();
         rd.close();
         JSONObject obj = new JSONObject(stb.toString());
+        System.out.println(obj.getJSONObject("data").getString("link"));
         return obj.getJSONObject("data").getString("link");
 
     }
+
 }

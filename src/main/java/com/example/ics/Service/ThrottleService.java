@@ -1,4 +1,4 @@
-package com.example.ics.service;
+package com.example.ics.Service;
 
 import com.google.common.util.concurrent.RateLimiter;
 import lombok.RequiredArgsConstructor;

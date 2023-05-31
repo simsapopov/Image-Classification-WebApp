@@ -1,6 +1,6 @@
 package com.example.ics;
 
-import com.example.ics.service.ThrottleService;
+import com.example.ics.Service.ThrottleService;
 import com.google.common.util.concurrent.RateLimiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

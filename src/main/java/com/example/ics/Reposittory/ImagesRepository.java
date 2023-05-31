@@ -10,7 +10,6 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
     Images findByUrl(String url);
     void deleteById(Long id);
     Optional<Images> findById(Long id);
-  //  void deleteById(Long id);
 
     Images save(Images image);
 

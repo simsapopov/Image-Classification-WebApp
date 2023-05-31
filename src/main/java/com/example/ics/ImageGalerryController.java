@@ -1,7 +1,7 @@
 package com.example.ics;
 
 import com.example.ics.Entity.Images;
-import com.example.ics.service.ImagesService;
+import com.example.ics.Service.ImagesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

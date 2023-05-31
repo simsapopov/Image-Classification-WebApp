@@ -2,9 +2,9 @@ package com.example.ics;
 
 import com.example.ics.Entity.Images;
 import com.example.ics.Entity.Tag;
-import com.example.ics.service.ImagesService;
-import com.example.ics.service.ImaggaService;
-import com.example.ics.service.TagService;
+import com.example.ics.Service.ImagesService;
+import com.example.ics.Service.ImaggaService;
+import com.example.ics.Service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

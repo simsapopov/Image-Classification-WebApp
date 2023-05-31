@@ -3,7 +3,7 @@ package com.example.ics;
 import com.example.ics.Entity.Images;
 import com.example.ics.Reposittory.ImagesRepository;
 import com.example.ics.Reposittory.TagRepository;
-import com.example.ics.service.*;
+import com.example.ics.Service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
