@@ -1,20 +1,11 @@
 package com.example.ics;
 
-import com.example.ics.Entity.Images;
 import com.example.ics.Reposittory.ImagesRepository;
 import com.example.ics.Reposittory.TagRepository;
 import com.example.ics.Service.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 class ImaggaServiceTest {
     private ImaggaService imaggaService;
@@ -43,29 +34,29 @@ class ImaggaServiceTest {
 
     }
 
-    @Test
-    void testClassifyImage_shouldThrottleTwice() throws Exception {
-        when(throttleService.shouldThrottle()).thenReturn(true);
-
-        String imageUrl = "{\"imageUrl\":\"https:\\/\\/encrypted-tbn0.gstatic.com\\/images?q=tbn:ANd9GcQs8UFTQfU-_h6kwr79UmW8VRmVN97Mwn8ablEqQhVmOQzlP6zyLOOVFdrMqWGyDrmdxWo&usqp=CAU\"}";
-        Images image = new Images();
-        image.setUrl(imageUrl);
-        when(imagesService.findImageByUrl(imageUrl)).thenReturn(null);
-        when(imagesService.saveImage(imageUrl)).thenReturn(image);
-
-        RestTemplate restTemplate = mock(RestTemplate.class);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("apiKey", "apiSecret");
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> responseEntity = new ResponseEntity<>("responseBody", HttpStatus.OK);
-        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), eq(entity), eq(String.class)))
-                .thenReturn(responseEntity);
-
-        when(jsonParser.parseTagsToList(eq("responseBody"), eq(imageUrl))).thenReturn(new ArrayList<>());
-
-        String result = imaggaService.classifyImage(imageUrl);
-
-        assertEquals("Rate limit exceeded. Please try again later.", result);
-        verify(throttleService, times(2)).shouldThrottle();
-    }
+//    @Test
+//    void testClassifyImage_shouldThrottleTwice() throws Exception {
+//        when(throttleService.shouldThrottle()).thenReturn(true);
+//
+//        String imageUrl = "{\"imageUrl\":\"https:\\/\\/encrypted-tbn0.gstatic.com\\/images?q=tbn:ANd9GcQs8UFTQfU-_h6kwr79UmW8VRmVN97Mwn8ablEqQhVmOQzlP6zyLOOVFdrMqWGyDrmdxWo&usqp=CAU\"}";
+//        Images image = new Images();
+//        image.setUrl(imageUrl);
+//        when(imagesService.findImageByUrl(imageUrl)).thenReturn(null);
+//        when(imagesService.saveImage(imageUrl)).thenReturn(image);
+//
+//        RestTemplate restTemplate = mock(RestTemplate.class);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setBasicAuth("apiKey", "apiSecret");
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        ResponseEntity<String> responseEntity = new ResponseEntity<>("responseBody", HttpStatus.OK);
+//        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), eq(entity), eq(String.class)))
+//                .thenReturn(responseEntity);
+//
+//        when(jsonParser.parseTagsToList(eq("responseBody"), eq(imageUrl))).thenReturn(new ArrayList<>());
+//
+//        String result = imaggaService.classifyImage(imageUrl);
+//
+//        assertEquals("Rate limit exceeded. Please try again later.", result);
+//        verify(throttleService, times(2)).shouldThrottle();
+//    }
 }

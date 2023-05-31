@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input type="file" id="myFile">
+<button id="submitBtn">Upload</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#submitBtn').on('click', function() {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Client-ID ");
+
+        var formData = new FormData();
+        formData.append("image", $('#myFile')[0].files[0]);
+        
+        var settings = {
+            "url": "https://api.imgur.com/3/image",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Authorization": "Client-ID c59e653bc21c3ca"
+            },
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": formData
+        };
+        
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

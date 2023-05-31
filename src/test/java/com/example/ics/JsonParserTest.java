@@ -36,7 +36,7 @@ class JsonParserTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        jsonParser = new JsonParser(tagRepository, imagesRepository, imagesService, tagService);
+        jsonParser = new JsonParser(imagesService );
     }
 
     @Test
