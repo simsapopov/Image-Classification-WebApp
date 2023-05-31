@@ -1,42 +1,35 @@
 package com.example.ics.Entity;
-import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
 import java.util.List;
 
 
 @Entity
-public class Images {
+@Getter
+@Table(name = "IMAGE")
+public class Images implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id",nullable = false,updatable = false)
+  @Setter()
   private Long id;
-  @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "image", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+  @JsonManagedReference
+  @Setter
   private List<Tag> tags;
-    // TODO @Basic
+
+  @Column(name = "name")
+  @Setter
   private String name;
+  @Column(name = "url",updatable = false,nullable = false)
+  @Setter
   private String url;
 
 
-  public Long getId() {
-    return id;
-  }
 
-  public void setId(Long id) {
-        this.id = id;
-    }
-
-  public String getName() {
-        return name;
-    }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getUrl() {
-    return url;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
 }

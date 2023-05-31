@@ -18,7 +18,7 @@ public class ImagesService {
         return imagesRepository.findAll();
     }
     public Images getImageFromId(Long id){
-        return imagesRepository.findByid(id);
+        return imagesRepository.findById(id).orElse(null);
     }
     public List<Images> getAllImagesWithIdList(List<Long> id){
         List<Images> images= new ArrayList<Images>();
@@ -28,9 +28,10 @@ public class ImagesService {
         return images;
 
     }
-    public String getAllImagesWithTags() {
+    public String getAllImagesWithTags(String tag) {
+
         StringBuilder string = new StringBuilder();
-        List<Images> listImages= getAllImages();
+        List<Images> listImages= getAllImagesWithIdList(tagService.findAllImagesWithTag(tag));
         for (int i = 0; i < listImages.size(); i++) {
             string.append(listImages.get(i).getUrl());
             string.append(" Tags:");
@@ -42,15 +43,17 @@ public class ImagesService {
     public Images findImageByUrl(String Url){
         return imagesRepository.findByUrl(Url);
     }
-
     public Images saveImage(String imageUrl){
         Images newImage= new Images();
         newImage.setUrl(imageUrl);
-        this.imagesRepository.save(newImage);
+        this.imagesRepository.saveAndFlush(newImage);
         return newImage;
 
     }
-    public Long getIdFromUrl(String imageUrl){
-        return findImageByUrl(imageUrl).getId();
+
+    public String deleteImageWithId(Long Id){
+        imagesRepository.deleteById(Id);
+        return "Deleted";
     }
+
 }

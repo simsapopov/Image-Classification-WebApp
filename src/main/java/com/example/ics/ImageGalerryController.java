@@ -1,12 +1,10 @@
 package com.example.ics;
 
-import org.springframework.ui.Model;
 import com.example.ics.Entity.Images;
 import com.example.ics.service.ImagesService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,10 +14,10 @@ import java.util.List;
 public class ImageGalerryController {
     private final ImagesService imagesService;
 
-    //@PostMapping("/galerry")
-   //public String classify(@RequestBody String imageUrl) {
-    ///    return imagesService.getAllImagesWithTags();
-   // }
+    @PostMapping("/galerry")
+   public String classify(@RequestBody String imageUrl) {
+      return imagesService.getAllImagesWithTags(imageUrl);
+    }
     @GetMapping("/gallery")
     public String gallery(Model model) {
         List<Images> images = imagesService.getAllImages();

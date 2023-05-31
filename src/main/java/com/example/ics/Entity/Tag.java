@@ -1,62 +1,44 @@
 package com.example.ics.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.awt.*;
+import java.io.Serializable;
 
 @Entity
-public class Tag {
+@Getter
+@Table(name = "TAGS", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id", "image_id"})})
+public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",nullable = false,updatable = false)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
+    @Column(name = "tag",nullable = false,updatable = false)
+    @Setter
     private String tag;
+    @Column(name = "confidence_percentage",nullable = false,updatable = false)
+    @Setter
     private double confidencePercentage;
 
-    @ManyToOne
-    @JoinColumn(name = "image_id")
+
+    @ManyToOne(fetch = FetchType.EAGER )
+    @JsonBackReference
+    @JoinColumn(name = "image_id",referencedColumnName = "id")
+    @Setter
     private Images image;
 
-    public Tag(Long id, String name, double confidencePercentage, Images image) {
-        this.id = id;
-        this.tag = name;
-        this.confidencePercentage = confidencePercentage;
-        this.image = image;
-    }
-
     public Tag() {
-
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return tag;
-    }
-
-    public void setName(String name) {
-        this.tag = name;
-    }
-
-    public double getConfidencePercentage() {
-        return confidencePercentage;
-    }
-
-    public void setConfidencePercentage(double confidencePercentage) {
+    public Tag(String tag, double confidencePercentage, Images image) {
+        this.tag = tag;
         this.confidencePercentage = confidencePercentage;
-    }
-
-    public Images getImage() {
-        return image;
-    }
-
-    public void setImage(Images image) {
         this.image = image;
     }
 }
