@@ -5,7 +5,6 @@ import com.example.ics.Entity.Tag;
 import com.example.ics.Reposittory.ImagesRepository;
 import com.example.ics.Reposittory.TagRepository;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImaggaService {
     private final ThrottleService throttleService;
+    private final ImgurService imgurService;
     private final TagService tagService;
     private final ImagesService imagesService;
     private final ImagesRepository imagesRepository;
@@ -31,7 +31,7 @@ public class ImaggaService {
     @Value("${imagga.api.secret}")
     private String apiSecret;
 
-    public String classifyImage(String jsonString) throws JSONException {
+    public String classifyImage(String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
         System.out.println(jsonObject);
         String imageUrl = jsonObject.getString("imageUrl");
@@ -39,21 +39,22 @@ public class ImaggaService {
         if (image != null) {
             return image.getId().toString();
         } else {
+            String URL = imgurService.uploadImage(imageUrl);
             if (throttleService.shouldThrottle()) {
                 if (throttleService.shouldThrottle()) {
                     return "Rate limit exceeded. Please try again later.";
                 }
             }
-            System.out.println(imageUrl);
-            image = imagesService.saveImage(imageUrl);
+            System.out.println(URL);
+            image = imagesService.saveImage(URL);
             RestTemplate restTemplate = new RestTemplate();
-            String url = "https://api.imagga.com/v2/tags?image_url=" + imageUrl;
+            String url = "https://api.imagga.com/v2/tags?image_url=" + URL;
             HttpHeaders headers = new HttpHeaders();
             headers.setBasicAuth(apiKey, apiSecret);
             HttpEntity<String> entity = new HttpEntity<>(headers);
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
-                List<Tag> tags =jsonParser.parseTagsToList(response.getBody(), imageUrl);
+                List<Tag> tags =jsonParser.parseTagsToList(response.getBody(), URL);
                 tagService.addTags(tags,image);
                 image.setTags(tags);
                 imagesRepository.saveAndFlush(image);

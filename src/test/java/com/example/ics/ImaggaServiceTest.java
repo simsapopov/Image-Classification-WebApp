@@ -4,7 +4,6 @@ import com.example.ics.Entity.Images;
 import com.example.ics.Reposittory.ImagesRepository;
 import com.example.ics.Reposittory.TagRepository;
 import com.example.ics.service.*;
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -41,11 +40,11 @@ class ImaggaServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        imaggaService = new ImaggaService(throttleService, tagService, imagesService, imagesRepository, tagRepository, jsonParser);
+
     }
 
     @Test
-    void testClassifyImage_shouldThrottleTwice() throws JSONException {
+    void testClassifyImage_shouldThrottleTwice() throws Exception {
         when(throttleService.shouldThrottle()).thenReturn(true);
 
         String imageUrl = "{\"imageUrl\":\"https:\\/\\/encrypted-tbn0.gstatic.com\\/images?q=tbn:ANd9GcQs8UFTQfU-_h6kwr79UmW8VRmVN97Mwn8ablEqQhVmOQzlP6zyLOOVFdrMqWGyDrmdxWo&usqp=CAU\"}";

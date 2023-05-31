@@ -6,7 +6,6 @@ import com.example.ics.service.ImagesService;
 import com.example.ics.service.ImaggaService;
 import com.example.ics.service.TagService;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +22,12 @@ public class ImageClassificationController {
 
 
     @PostMapping("/classify")
-    public String classify(@RequestBody String imageUrl) throws JSONException {
+    public String classify(@RequestBody String imageUrl) throws Exception {
         return imaggaService.classifyImage(imageUrl);
     }
     @PostMapping("/classifys")
     @CrossOrigin(origins = "http://localhost:4200")
-    public String classifys(@RequestBody String imageUrl) throws JSONException {
+    public String classifys(@RequestBody String imageUrl) throws Exception {
         return imaggaService.classifyImage(imageUrl);
     }
 
