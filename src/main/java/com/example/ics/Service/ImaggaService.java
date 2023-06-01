@@ -10,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,29 +42,35 @@ public class ImaggaService {
         if (throttleService.shouldThrottle()) {
             return "Rate limit exceeded. Please try again later.";
         }
+        image = imagesService.saveImage(ImgurUrl, imageUrl);
+        List<Tag> tagList=new ArrayList<>();
+        try {
+            tagList = GetTagsListImagga(image);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
 
-        image = imagesService.saveImage(ImgurUrl,imageUrl);
+        tagService.addTags(tagList, image);
+        image.setTags(tagList);
+        imagesRepository.saveAndFlush(image);
+        return image.getId().toString();
+    }
+    public List<Tag> GetTagsListImagga(Images image) throws Exception {
         image.setName("Imagga");
         RestTemplate restTemplate = new RestTemplate();
+        String ImgurUrl = image.getImgurlUrl();
         String url = "https://api.imagga.com/v2/tags?image_url=" + ImgurUrl;
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(apiKey, apiSecret);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-            List<Tag> tags = jsonParser.parseTagsToList(response.getBody(), ImgurUrl);
-            tagService.addTags(tags, image);
 
-            image.setTags(tags);
-            imagesRepository.saveAndFlush(image);
-            return image.getId().toString();
+
+            return jsonParser.parseTagsToList(response.getBody(), ImgurUrl);
 
         }
-        return response.getStatusCode().toString();
-
-
-
-
+        throw new Exception(response.getStatusCode().toString());
     }
 }
 

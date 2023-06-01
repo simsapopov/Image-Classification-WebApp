@@ -24,7 +24,7 @@ public class ClarifaiService {
     private final ImagesRepository imagesRepository;
     private final ThrottleService throttleService;
 
-    public String main(String jsonString) throws Exception {
+    public String classifyClarifai(String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
         String imageUrl = jsonObject.getString("imageUrl");
 
@@ -38,8 +38,16 @@ public class ClarifaiService {
             return "Rate limit exceeded. Please try again later.";
         }
         image = imagesService.saveImage(ImgurUrl, imageUrl);
-        image.setName("Clariffai");
+        List<Tag> tagList = GetTagsListClarifai(image);
+        tagService.addTags(tagList, image);
+        image.setTags(tagList);
+        imagesRepository.saveAndFlush(image);
+        return image.getId().toString();
 
+    }
+
+    public List<Tag> GetTagsListClarifai(Images image) {
+        image.setName("Clarifai");
         V2Grpc.V2BlockingStub stub = V2Grpc.newBlockingStub(ClarifaiChannel.INSTANCE.getGrpcChannel())
                 .withCallCredentials(new ClarifaiCallCredentials("edc51e099d9f405e8d0ee69b1aa1ee57"));
         MultiOutputResponse postModelOutputsResponse = stub.postModelOutputs(
@@ -49,7 +57,7 @@ public class ClarifaiService {
                         .addInputs(
                                 Input.newBuilder().setData(
                                         Data.newBuilder().setImage(
-                                                Image.newBuilder().setUrl(ImgurUrl)
+                                                Image.newBuilder().setUrl(image.getImgurlUrl())
                                         )
                                 )
                         )
@@ -71,10 +79,7 @@ public class ClarifaiService {
             tag.setImage(image);
             tags.add(tag);
         }
-        tagService.addTags(tags, image);
-        image.setTags(tags);
-        imagesRepository.saveAndFlush(image);
-        return image.getId().toString();
+        return tags;
 
     }
 

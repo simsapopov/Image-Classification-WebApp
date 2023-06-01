@@ -44,7 +44,7 @@ public class TagService {
     }
 
     public void deleteTagsWithId(Long id) {
-        tagRepository.deleteById(id);
+        tagRepository.deleteAllByImage_Id(id);
     }
 
     public List<Long> findAllImagesWithTag(String tag) {

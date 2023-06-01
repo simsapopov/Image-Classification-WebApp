@@ -3,6 +3,7 @@ package com.example.ics;
 
 import com.example.ics.Entity.Images;
 import com.example.ics.Entity.Tag;
+import com.example.ics.Reposittory.ImagesRepository;
 import com.example.ics.Service.ClarifaiService;
 import com.example.ics.Service.ImagesService;
 import com.example.ics.Service.ImaggaService;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ImageClassificationController {
     private final ImaggaService imaggaService;
+    private final ImagesRepository imagesRepository;
     private final ImagesService imagesService;
     private final ClarifaiService clarifaiService;
     private final TagService tagService;
@@ -33,10 +37,11 @@ public class ImageClassificationController {
         }
     }
 
+
     @PostMapping("/classifyclarifai")
     public String other(@RequestBody String imageUrl) {
         try {
-            return clarifaiService.main(imageUrl);
+            return clarifaiService.classifyClarifai(imageUrl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -129,6 +134,26 @@ public class ImageClassificationController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping(value = {"replacetags/{id}"})
+    public String getImagesWithTag(@PathVariable Long id) throws Exception {
+        List<Tag> tagList = new ArrayList<>();
+       Images image = imagesService.getImageFromId(id);
+        if(image == null){
+            return "There isn't immage with this id";
+        }
+        image.setTags(tagList);
+        image.setAnalyzedAt(new Date());
+        tagService.deleteTagsWithId(id);
+        if(image.getName().equals("Imagga")){
+            tagList = clarifaiService.GetTagsListClarifai(image);
+            image.setTags(tagList);
+        }else if(image.getName().equals("Clarifai")){
+            tagList = imaggaService.GetTagsListImagga(image);
+            image.setTags(tagList);
+        }
+        imagesRepository.saveAndFlush(image);
+        return "Okay";
     }
 
 }
