@@ -19,6 +19,7 @@ public class ImgurService {
     @Value("${umgur.cliend.id}")
     private String ClientId;
     private final JsonParser jsonParser;
+
     public String uploadImage(String inputData) throws Exception {
         if (inputData.startsWith("{\"imageUrl\":")) {
             inputData = jsonParser.extractUrlFromJson(inputData);
@@ -28,7 +29,6 @@ public class ImgurService {
 
 
         }
-        System.out.println(inputData);
         URL url;
         url = new URL("https://api.imgur.com/3/image");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -60,7 +60,6 @@ public class ImgurService {
         wr.close();
         rd.close();
         JSONObject obj = new JSONObject(stb.toString());
-        System.out.println(obj.getJSONObject("data").getString("link"));
         return obj.getJSONObject("data").getString("link");
 
     }

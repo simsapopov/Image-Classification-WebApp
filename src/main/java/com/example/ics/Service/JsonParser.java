@@ -20,22 +20,21 @@ public class JsonParser {
     private final ImagesService imageService;
 
 
-    public List<Tag> parseTagsToList(String jsonResponse,String url) {
+    public List<Tag> parseTagsToList(String jsonResponse, String url) {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(jsonResponse, JsonObject.class);
         JsonArray tagsArray = jsonObject.getAsJsonObject("result").getAsJsonArray("tags");
         List<Tag> tagList = new ArrayList<>();
-        Images image =imageService.findImageByUrl(url);
+        Images image = imageService.findImageByUrl(url);
         int i = 0;
-
         while (i < tagsArray.size()) {
             JsonObject tagObject = tagsArray.get(i).getAsJsonObject();
             String tag = tagObject.getAsJsonObject("tag").get("en").getAsString();
             double confidence = tagObject.get("confidence").getAsDouble();
-            if(confidence<30){
+            if (confidence < 30) {
                 break;
             }
-            Tag NewTag = new Tag(tag,confidence,imageService.findImageByUrl(url));
+            Tag NewTag = new Tag(tag, confidence, imageService.findImageByUrl(url));
             i++;
             tagList.add(NewTag);
         }
@@ -44,6 +43,7 @@ public class JsonParser {
 
 
     }
+
     String extractUrlFromJson(String jsonData) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();

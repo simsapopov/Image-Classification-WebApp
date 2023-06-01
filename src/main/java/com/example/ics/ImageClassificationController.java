@@ -1,7 +1,9 @@
 package com.example.ics;
 
+
 import com.example.ics.Entity.Images;
 import com.example.ics.Entity.Tag;
+import com.example.ics.Service.ClarifaiService;
 import com.example.ics.Service.ImagesService;
 import com.example.ics.Service.ImaggaService;
 import com.example.ics.Service.TagService;
@@ -18,13 +20,28 @@ import java.util.stream.Collectors;
 public class ImageClassificationController {
     private final ImaggaService imaggaService;
     private final ImagesService imagesService;
+    private final ClarifaiService clarifaiService;
     private final TagService tagService;
 
 
-    @PostMapping("/classify")
-    public String classify(@RequestBody String imageUrl) throws Exception {
-        return imaggaService.classifyImage(imageUrl);
+    @PostMapping("/classifyimagga")
+    public String classify(@RequestBody String imageUrl) {
+        try {
+            return imaggaService.classifyImage(imageUrl);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    @PostMapping("/classifyclarifai")
+    public String other(@RequestBody String imageUrl) {
+        try {
+            return clarifaiService.main(imageUrl);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping("/classifys")
     @CrossOrigin(origins = "http://localhost:4200")
     public String classifys(@RequestBody String imageUrl) throws Exception {
@@ -39,7 +56,6 @@ public class ImageClassificationController {
 
     @GetMapping("/getimage/{tag}")
     public ResponseEntity<List<Images>> getimagesfromtaag(@PathVariable String tag) {
-        System.out.println(tag);
         List<Images> img = imagesService.getAllImagesWithIdList(tagService.findAllImagesWithTag(tag));
         if (img != null) {
             return ResponseEntity.ok(img);
@@ -59,8 +75,8 @@ public class ImageClassificationController {
         }
 
 
-
     }
+
     @DeleteMapping("/images/{id}")
     public ResponseEntity<String> deleteWithID(@PathVariable Integer id) {
         tagService.deleteTagsWithId(Long.valueOf(id));
@@ -71,6 +87,7 @@ public class ImageClassificationController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/images/{id}/tags")
     public ResponseEntity<List<Tag>> getImageWithTags(@PathVariable Integer id) {
         List<Tag> tags = tagService.getAllTagsWithId(Long.valueOf(id));
@@ -82,6 +99,7 @@ public class ImageClassificationController {
         }
 
     }
+
     @GetMapping("/images")
     public ResponseEntity<List<Images>> getImages() {
         List<Images> image = imagesService.getAllImages();
@@ -93,9 +111,18 @@ public class ImageClassificationController {
         }
 
     }
+
+    @GetMapping({"/message/{id}"})
+    public String getMessage(@PathVariable Long id) {
+        return imagesService.getMessege(id);
+    }
+
     @GetMapping(value = {"/{tag}"})
     public ResponseEntity<List<Images>> getImagesWithTag(@PathVariable String tag) {
-        List<Images> imagesList=  imagesService.getAllImagesWithIdList(tagService.getImageIdsBySequence(tag));
+        List<Images> imagesList = imagesService.getAllImagesWithIdList(tagService.getImageIdsBySequence(tag));
+        if (imagesList == null) {
+            return ResponseEntity.notFound().build();
+        }
         List<Images> listDistinct = imagesList.stream().distinct().collect(Collectors.toList());
         if (listDistinct != null) {
             return ResponseEntity.ok(listDistinct);

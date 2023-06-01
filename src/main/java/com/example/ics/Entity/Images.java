@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,10 +27,21 @@ public class Images implements Serializable {
   @Column(name = "name")
   @Setter
   private String name;
-  @Column(name = "url",updatable = false,nullable = false)
+  @Column(name = "url",updatable = false)
   @Setter
   private String url;
+  @Column(name = "imgurlUrl",updatable = false,nullable = false)
+  @Setter
+  private String imgurlUrl;
+  @Column(name = "analyzedAt")
+  @Temporal(TemporalType.TIMESTAMP)
+  @Setter
+  private Date analyzedAt;
+  @Column(name = "width")
+  @Setter
+  private Integer  width;
 
-
-
+  @Column(name = "height")
+  @Setter
+  private Integer  height;
 }

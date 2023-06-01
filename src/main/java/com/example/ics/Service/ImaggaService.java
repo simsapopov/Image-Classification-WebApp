@@ -37,21 +37,23 @@ public class ImaggaService {
         if (image != null) {
             return image.getId().toString();
         }
-        String URL = imgurService.uploadImage(imageUrl);
+        String ImgurUrl = imgurService.uploadImage(imageUrl);
         if (throttleService.shouldThrottle()) {
             return "Rate limit exceeded. Please try again later.";
         }
 
-        image = imagesService.saveImage(URL);
+        image = imagesService.saveImage(ImgurUrl,imageUrl);
+        image.setName("Imagga");
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://api.imagga.com/v2/tags?image_url=" + URL;
+        String url = "https://api.imagga.com/v2/tags?image_url=" + ImgurUrl;
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(apiKey, apiSecret);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-            List<Tag> tags = jsonParser.parseTagsToList(response.getBody(), URL);
+            List<Tag> tags = jsonParser.parseTagsToList(response.getBody(), ImgurUrl);
             tagService.addTags(tags, image);
+
             image.setTags(tags);
             imagesRepository.saveAndFlush(image);
             return image.getId().toString();
