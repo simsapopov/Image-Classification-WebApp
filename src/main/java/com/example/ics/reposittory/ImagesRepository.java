@@ -14,7 +14,7 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
     void deleteById(Long id);
     Optional<Images> findById(Long id);
 
-
+    List<Images> findAllByOrderByAnalyzedAtAsc();
     Images save(Images image);
 
     List<Images> findByName(String name);

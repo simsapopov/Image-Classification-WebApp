@@ -28,9 +28,9 @@
             ></cds-icon>
           </div>
           <span
-            class="clr-subtext"
-            [ngClass]="{ 'clr-error': isImageUrlInvalid() }"
-          >
+
+            *ngIf="isImageUrlInvalid()"
+            class="clr-subtext clr-error"   >
             Error message
           </span>
         </div>

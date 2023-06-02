@@ -16,7 +16,7 @@ public class ImagesService {
     private final TagService tagService;
 
     public List<Images> getAllImages() {
-        return imagesRepository.findAll();
+        return imagesRepository.findAllByOrderByAnalyzedAtAsc();
     }
 
     public Images getImageFromId(Long id) {

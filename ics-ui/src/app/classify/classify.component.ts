@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class ClassifyComponent implements OnInit {
   classifyForm: FormGroup;
   classifyButtonClicked = false;
-  imageUrlControl: AbstractControl;
+  public imageUrlControl: AbstractControl;
   selectedFile: any;
   selectedFileName: string | null = null
 
@@ -25,6 +25,7 @@ export class ClassifyComponent implements OnInit {
     private fb: FormBuilder,
     private imageService: ImageService,
     private router: Router
+
   ) {
     this.classifyForm = this.fb.group({
       ['imageUrl']: ['', Validators.required],
@@ -34,14 +35,16 @@ export class ClassifyComponent implements OnInit {
     this.imageUrlControl = this.classifyForm.controls['imageUrl'];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
   onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
       this.selectedFile = fileList[0];
-      this.selectedFileName = this.selectedFile.name; // Save the selected file name
+      this.selectedFileName = this.selectedFile.name;
     }
   }
 

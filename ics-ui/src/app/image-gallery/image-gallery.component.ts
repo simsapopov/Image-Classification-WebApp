@@ -9,6 +9,10 @@ export interface Image {
   tags: Tag[];
   name: string;
   url: string;
+  imgurlUrl: string;
+  analyzedAt: Date;
+  width: number;
+  height: number;
 }
 
 export interface Tag {
@@ -26,10 +30,13 @@ export class GalleryComponent implements OnInit {
   images: Image[] | undefined;
   tagFormControl = new FormControl();
   inputFormControl = new FormControl();
+  isAscending = true;
+  sortButtonText = 'Ascending';
 
   constructor(
     private imageService: ImageService,
     private route: ActivatedRoute,
+    
     private router: Router
   ) {}
 
@@ -73,8 +80,23 @@ export class GalleryComponent implements OnInit {
       );
     }
   }
+  sortImages(): void {
+    if (this.images) {
+        if (this.isAscending) {
+            this.images.sort((a, b) => (a.analyzedAt > b.analyzedAt) ? 1 : -1);
+            this.sortButtonText = 'Descending';
+        } else {
+            this.images.sort((a, b) => (a.analyzedAt < b.analyzedAt) ? 1 : -1);
 
-  filterImagesByTag(tag: string, event: Event | null): void {
+            this.sortButtonText = 'Ascending'; 
+        }
+    }
+
+    this.isAscending = !this.isAscending;
+}
+
+
+  public filterImagesByTag(tag: string, event: Event | null): void {
     if (event) {
       event.stopPropagation();
     }
