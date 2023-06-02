@@ -1,13 +1,13 @@
 package com.example.ics;
 
 
-import com.example.ics.Entity.Images;
-import com.example.ics.Entity.Tag;
-import com.example.ics.Reposittory.ImagesRepository;
-import com.example.ics.Service.ClarifaiService;
-import com.example.ics.Service.ImagesService;
-import com.example.ics.Service.ImaggaService;
-import com.example.ics.Service.TagService;
+import com.example.ics.entity.Images;
+import com.example.ics.entity.Tag;
+import com.example.ics.reposittory.ImagesRepository;
+import com.example.ics.service.ClarifaiService;
+import com.example.ics.service.ImagesService;
+import com.example.ics.service.ImaggaService;
+import com.example.ics.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class ImageClassificationController {
     private final TagService tagService;
 
 
-    @PostMapping("/classifyimagga")
+    @PostMapping("/classify/imagga")
     public String classify(@RequestBody String imageUrl) {
         try {
             return imaggaService.classifyImage(imageUrl);
@@ -38,19 +38,13 @@ public class ImageClassificationController {
     }
 
 
-    @PostMapping("/classifyclarifai")
+    @PostMapping("/classify/clarifai")
     public String other(@RequestBody String imageUrl) {
         try {
             return clarifaiService.classifyClarifai(imageUrl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @PostMapping("/classifys")
-    @CrossOrigin(origins = "http://localhost:4200")
-    public String classifys(@RequestBody String imageUrl) throws Exception {
-        return imaggaService.classifyImage(imageUrl);
     }
 
     @GetMapping("/getUniqueTags")

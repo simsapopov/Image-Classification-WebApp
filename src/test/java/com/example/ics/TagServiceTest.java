@@ -1,9 +1,9 @@
 package com.example.ics;
 
-import com.example.ics.Entity.Images;
-import com.example.ics.Entity.Tag;
-import com.example.ics.Reposittory.TagRepository;
-import com.example.ics.Service.TagService;
+import com.example.ics.entity.Images;
+import com.example.ics.entity.Tag;
+import com.example.ics.reposittory.TagRepository;
+import com.example.ics.service.TagService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

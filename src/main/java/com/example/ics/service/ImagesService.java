@@ -1,7 +1,7 @@
-package com.example.ics.Service;
+package com.example.ics.service;
 
-import com.example.ics.Entity.Images;
-import com.example.ics.Reposittory.ImagesRepository;
+import com.example.ics.entity.Images;
+import com.example.ics.reposittory.ImagesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

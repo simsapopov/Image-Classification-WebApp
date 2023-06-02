@@ -1,7 +1,7 @@
-package com.example.ics.Service;
+package com.example.ics.service;
 
-import com.example.ics.Entity.Images;
-import com.example.ics.Entity.Tag;
+import com.example.ics.entity.Images;
+import com.example.ics.entity.Tag;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;

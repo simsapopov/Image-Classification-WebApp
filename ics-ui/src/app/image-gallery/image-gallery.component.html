@@ -1,0 +1,28 @@
+<div class="container">
+  <label for="Tag">Tag</label>
+  <input type="text" class="form-control" id="Tag" [formControl]="inputFormControl" placeholder="Enter image Tag">
+
+
+<div class="container">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-12" *ngFor="let image of images">
+        <div [routerLink]="['/image', image.id]" class="card clickable">
+          <div class="card-img">
+            <img [src]="image.url" alt="Image" class="uniform-img">
+          </div>
+          <div class="card-block">
+            <p>
+              <strong>Image ID: </strong> {{ image.id }} <br>
+              <strong>Top Tags:</strong>
+            </p>
+            <a *ngFor="let tag of image.tags.slice(0,5)" 
+               (click)="filterImagesByTag(tag.tag, $event)" 
+               class="label label-purple clickable">
+              {{ tag.tag }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

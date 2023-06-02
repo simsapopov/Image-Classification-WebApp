@@ -1,8 +1,8 @@
-package com.example.ics.Service;
+package com.example.ics.service;
 
-import com.example.ics.Entity.Images;
-import com.example.ics.Entity.Tag;
-import com.example.ics.Reposittory.ImagesRepository;
+import com.example.ics.entity.Images;
+import com.example.ics.entity.Tag;
+import com.example.ics.reposittory.ImagesRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +43,8 @@ public class ImaggaService {
             return "Rate limit exceeded. Please try again later.";
         }
         image = imagesService.saveImage(ImgurUrl, imageUrl);
+        System.out.println(imageUrl);
+        System.out.println(ImgurUrl );
         List<Tag> tagList=new ArrayList<>();
         try {
             tagList = GetTagsListImagga(image);

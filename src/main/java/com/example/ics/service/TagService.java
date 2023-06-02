@@ -1,8 +1,8 @@
-package com.example.ics.Service;
+package com.example.ics.service;
 
-import com.example.ics.Entity.Images;
-import com.example.ics.Entity.Tag;
-import com.example.ics.Reposittory.TagRepository;
+import com.example.ics.entity.Images;
+import com.example.ics.entity.Tag;
+import com.example.ics.reposittory.TagRepository;
 import com.google.gson.Gson;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

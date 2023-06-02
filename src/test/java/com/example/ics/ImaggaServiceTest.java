@@ -1,8 +1,8 @@
 package com.example.ics;
 
-import com.example.ics.Reposittory.ImagesRepository;
-import com.example.ics.Reposittory.TagRepository;
-import com.example.ics.Service.*;
+import com.example.ics.reposittory.ImagesRepository;
+import com.example.ics.reposittory.TagRepository;
+import com.example.ics.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

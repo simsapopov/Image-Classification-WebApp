@@ -1,6 +1,6 @@
-package com.example.ics.Reposittory;
+package com.example.ics.reposittory;
 
-import com.example.ics.Entity.Tag;
+import com.example.ics.entity.Tag;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
