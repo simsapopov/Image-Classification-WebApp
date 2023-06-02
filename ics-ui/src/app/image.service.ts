@@ -17,9 +17,9 @@ export class ImageService {
     return this.http.get<any[]>('http://localhost:8079/api/v2/images');
   }
   classifyImage(imageUrl: string,servicee:string): Observable<any> {
-    const transformedUrl = this.transformUrl(imageUrl);
-    console.log(this.API_ENDPOINT+"/"+servicee);
-    return this.http.post(this.API_ENDPOINT+"/"+servicee, { imageUrl: transformedUrl });
+    console.log(imageUrl);
+       
+    return this.http.post(this.API_ENDPOINT+"/"+servicee, { imageUrl});
   }
   classifyImageImagga(imageUrl: string): Observable<any> {
     const transformedUrl = this.transformUrl(imageUrl);

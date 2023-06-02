@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators , FormControl, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  AbstractControl,
+} from '@angular/forms';
 import { ImageService } from '../image.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-classify',
@@ -11,8 +16,10 @@ import { Router } from '@angular/router';
 })
 export class ClassifyComponent implements OnInit {
   classifyForm: FormGroup;
-classifyClicked: any;
-imageUrlControl: AbstractControl;
+  classifyButtonClicked = false;
+  imageUrlControl: AbstractControl;
+  selectedFile: any;
+  selectedFileName: string | null = null
 
   constructor(
     private fb: FormBuilder,
@@ -22,6 +29,7 @@ imageUrlControl: AbstractControl;
     this.classifyForm = this.fb.group({
       ['imageUrl']: ['', Validators.required],
       ['service']: ['imagga', Validators.required],
+      ['dataType']: ['url', Validators.required],
     });
     this.imageUrlControl = this.classifyForm.controls['imageUrl'];
   }
@@ -32,43 +40,35 @@ imageUrlControl: AbstractControl;
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
-      let file = fileList[0];
-      var reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        let base64Image = e.target?.result as string;
-
-        const service = this.classifyForm.value.service;
-        this.imageService.classifyImage(base64Image,service).subscribe(
-          (response) => this.handleResponse(response),
-          (error) => this.handleError(error)
-        );
-      };
-      reader.readAsDataURL(file);
+      this.selectedFile = fileList[0];
+      this.selectedFileName = this.selectedFile.name; // Save the selected file name
     }
   }
 
   onSubmit(event: Event): void {
     event.preventDefault();
-    if (this.classifyForm.valid) {
+    this.classifyButtonClicked = true;
+
+    const service = this.classifyForm.value.service;
+    const dataType = this.classifyForm.value.dataType;
+
+    if (dataType === 'url' && this.classifyForm.valid) {
       const imageUrl = this.classifyForm.value.imageUrl;
-      const service = this.classifyForm.value.service;
-
-      if (service === 'imagga') {
-        this.imageService.classifyImageImagga(imageUrl).subscribe(
+      this.imageService.classifyImage(imageUrl, service).subscribe(
+        (response) => this.handleResponse(response),
+        (error) => this.handleError(error)
+      );
+    } else if (dataType === 'file' && this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        let base64Image = e.target?.result as string;
+        this.imageService.classifyImage(base64Image, service).subscribe(
           (response) => this.handleResponse(response),
           (error) => this.handleError(error)
         );
-      } else if (service === 'clarifai') {
-        this.imageService.classifyImageClarifai(imageUrl).subscribe(
-          (response) => this.handleResponse(response),
-          (error) => this.handleError(error)
-        );
-      }
+      };
+      reader.readAsDataURL(this.selectedFile);
     }
-  }
-
-  onServiceChanged(event: Event): void {
-    console.log(this.classifyForm.value.service);
   }
 
   handleResponse(response: any) {
@@ -82,5 +82,25 @@ imageUrlControl: AbstractControl;
 
   handleError(error: any) {
     console.error(error);
+  }
+
+  isUrlTypeSelected(): boolean {
+    return this.classifyForm.value.dataType === 'url';
+  }
+
+  isImageUrlInvalid(): boolean {
+    return (
+      this.imageUrlControl.invalid &&
+      this.classifyButtonClicked &&
+      this.isUrlTypeSelected()
+    );
+  }
+
+  isFileInvalid(): boolean {
+    return (
+      this.classifyButtonClicked &&
+      this.classifyForm.value.dataType === 'file' &&
+      !this.selectedFile
+    );
   }
 }

@@ -1,4 +1,4 @@
-package com.example.ics;
+package com.example.ics.controller;
 
 
 import com.example.ics.entity.Images;
