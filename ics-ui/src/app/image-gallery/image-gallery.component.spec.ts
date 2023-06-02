@@ -16,8 +16,8 @@ export interface Tag {
 
 @Component({
   selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css']
+  templateUrl: './image-gallery.component.html',
+  styleUrls: ['./image-gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
   images: any[] | undefined;

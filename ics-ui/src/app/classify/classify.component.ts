@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators , FormControl, AbstractControl } from '@angular/forms';
 import { ImageService } from '../image.service';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-classify',
@@ -10,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class ClassifyComponent implements OnInit {
   classifyForm: FormGroup;
+classifyClicked: any;
+imageUrlControl: AbstractControl;
 
   constructor(
     private fb: FormBuilder,
@@ -17,9 +20,10 @@ export class ClassifyComponent implements OnInit {
     private router: Router
   ) {
     this.classifyForm = this.fb.group({
-      imageUrl: ['', Validators.required],
-      service: ['imagga', Validators.required],
+      ['imageUrl']: ['', Validators.required],
+      ['service']: ['imagga', Validators.required],
     });
+    this.imageUrlControl = this.classifyForm.controls['imageUrl'];
   }
 
   ngOnInit(): void {}
@@ -34,18 +38,10 @@ export class ClassifyComponent implements OnInit {
         let base64Image = e.target?.result as string;
 
         const service = this.classifyForm.value.service;
-
-        if (service === 'imagga') {
-          this.imageService.classifyImageImagga(base64Image).subscribe(
-            (response) => this.handleResponse(response),
-            (error) => this.handleError(error)
-          );
-        } else if (service === 'clarifai') {
-          this.imageService.classifyImageClarifai(base64Image).subscribe(
-            (response) => this.handleResponse(response),
-            (error) => this.handleError(error)
-          );
-        }
+        this.imageService.classifyImage(base64Image,service).subscribe(
+          (response) => this.handleResponse(response),
+          (error) => this.handleError(error)
+        );
       };
       reader.readAsDataURL(file);
     }
