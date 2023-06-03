@@ -12,9 +12,9 @@
 .url-input{
     width: 75%;
 }
-.form-group{
-  margin-left: 50%;
-}
+// .form-group{
+//   margin-left: 5%;
+// }
 .clr-innput{
   width: 50%;
 }
@@ -49,13 +49,17 @@
 }
 .flex-container {
   display: flex;
-  justify-content: 10px;
-  align-items: center
-  
+  justify-content: center;
+  align-items: center;
 }
 
 .button-container {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  margin-left: 10px; 
+  margin-top: 3%;
+}
 
+.clr-combobox-container {
+  margin-right: 10px; /* adjust this value to add space between the comboboxes */
 }

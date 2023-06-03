@@ -1,30 +1,30 @@
 <div class="container">
-  <div class="form-group flex-container" [formGroup]="classifyForm">
-    <clr-combobox-container>
-      <label for="service">Service</label>
-      <clr-combobox formControlName="service" name="service" required placeholder="Select a service">
-        <clr-options>
-          <clr-option clrValue="imagga">Imagga</clr-option>
-          <clr-option clrValue="clarifai">Clarifai</clr-option>
-        </clr-options>
-      </clr-combobox>
-    </clr-combobox-container>
-    
-    <clr-combobox-container>
-      <label for="dataType">Data Type</label>
-      <clr-combobox formControlName="dataType" name="dataType" required placeholder="Select a data type">
-        <clr-options>
-          <clr-option clrValue="file">File</clr-option>
-          <clr-option clrValue="url">URL</clr-option>
-        </clr-options>
-      </clr-combobox>
-    </clr-combobox-container>
-
-    <div class="button-container">
-      <button type="submit" class="btn btn-primary">Classify</button>
-    </div>
-  </div>
   <form [formGroup]="classifyForm" (ngSubmit)="onSubmit($event)">
+    <div class="form-group flex-container" [formGroup]="classifyForm">
+      <clr-combobox-container>
+        <label for="service">Service</label>
+        <clr-combobox formControlName="service" name="service" required placeholder="Select a service">
+          <clr-options>
+            <clr-option clrValue="imagga">Imagga</clr-option>
+            <clr-option clrValue="clarifai">Clarifai</clr-option>
+          </clr-options>
+        </clr-combobox>
+      </clr-combobox-container>
+      
+      <clr-combobox-container>
+        <label for="dataType">Data Type</label>
+        <clr-combobox formControlName="dataType" name="dataType" required placeholder="Select a data type">
+          <clr-options>
+            <clr-option clrValue="file">File</clr-option>
+            <clr-option clrValue="url">URL</clr-option>
+          </clr-options>
+        </clr-combobox>
+      </clr-combobox-container>
+
+      <div class="button-container">
+        <button type="submit" class="btn btn-primary">Classify</button>
+      </div>
+    </div>
     <div class="ics-mb-3" *ngIf="classifyForm.get('dataType')?.value === 'file'">
       <input type="file" id="file" (change)="onFileSelected($event)" style="display: none;" />
       <label for="file" class="file-upload-label">Upload File</label>
@@ -45,6 +45,6 @@
       </div>
     </div>
 
-  
+ 
   </form>
 </div>

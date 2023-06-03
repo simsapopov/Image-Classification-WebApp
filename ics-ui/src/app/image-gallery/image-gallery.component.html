@@ -1,7 +1,13 @@
 <div class="container">
-  <label for="Tag">Tag</label>
-  <input type="text" class="form-control" id="Tag" [formControl]="inputFormControl" placeholder="Enter image Tag">
-  <button class="ics-sort" *ngIf="!tagFormControl.value" (click)="sortImages()">{{ sortButtonText }}</button>
+
+
+  <form clrForm class="input-form-container">
+    <clr-input-container>
+      <input type="text" clrInput id="Tag" placeholder="Enter image Tag" [formControl]="inputFormControl" />
+    </clr-input-container>
+    <button class="ics-sort" *ngIf="!inputFormControl.value" (click)="sortImages()" id="analyzeButton">{{ sortButtonText }}</button>
+  </form>
+  
 
   <div class="container">
     <div class="clr-row">
@@ -24,8 +30,10 @@
         </div>
       </div>
     </div>
-    <button *ngIf="!tagFormControl.value" (click)="loadPrevious()">Previous</button>
-    <button *ngIf="!tagFormControl.value" (click)="loadNext()">Next</button>
-
+    <div class="pagination"*ngIf="!inputFormControl.value">
+      <button class="ics-pageBtn"  (click)="loadPrevious()"><</button>
+      <span class="page-number">Page: {{ page + 1 }}</span>
+      <button class="ics-pageBtn"  (click)="loadNext()">></button>
+    </div>
   </div>
 </div>

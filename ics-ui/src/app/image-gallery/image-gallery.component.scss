@@ -32,3 +32,32 @@
   .autocomplete-suggestions div:hover {
     background-color: #f5f5f5;
   }
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .page-number {
+    text-align: center;
+  }
+  .ics-pageBtn {
+    display: inline-block;
+    padding: 5px px;
+    background-color: #4AAED9;
+    color: black;
+    cursor: pointer;
+    border-radius: 50px;
+    
+  }
+  .input-form-container {
+    display: flex;
+    justify-content: center;
+  }
+  .ics-sor{
+    position: absolute ;
+    padding-right: 1000px;
+  }
+ 
+ 

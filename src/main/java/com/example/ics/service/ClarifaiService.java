@@ -23,21 +23,32 @@ public class ClarifaiService {
     private final ImgurService imgurService;
     private final ImagesRepository imagesRepository;
     private final ThrottleService throttleService;
+    private final CheckSum checkSum;
 
     public String classifyClarifai(String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
-        String imageUrl = jsonObject.getString("imageUrl");
 
-        Images image = imagesService.findImageByUrl(imageUrl);
+        String imageUrl = jsonObject.getString("imageUrl");
+        String imageHash= checkSum.getChecksum(imageUrl);
+        Images image = imagesRepository.findByHash(imageHash);
+        if (image != null) {
+            System.out.println(image.getId());
+            return image.getId().toString();
+
+        } image = imagesService.findImageByUrl(imageUrl);
         if (image != null) {
 
             return image.getId().toString();
         }
         String ImgurUrl = imgurService.uploadImage(imageUrl);
+        String CheckSum=  checkSum.getChecksum(ImgurUrl);
+        String CheckSum1=  checkSum.getChecksum(ImgurUrl);
+        String CheckSum2=  checkSum.getChecksum(ImgurUrl);
         if (throttleService.shouldThrottle()) {
             return "Rate limit exceeded. Please try again later.";
         }
-        image = imagesService.saveImage(ImgurUrl, imageUrl);
+
+        image = imagesService.saveImage(ImgurUrl, imageUrl,imageHash);
         List<Tag> tagList = GetTagsListClarifai(image);
         tagService.addTags(tagList, image);
         image.setTags(tagList);

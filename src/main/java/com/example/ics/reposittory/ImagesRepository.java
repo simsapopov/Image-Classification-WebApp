@@ -18,6 +18,8 @@ public interface ImagesRepository extends JpaRepository<Images, Long> {
     void deleteById(Long id);
     Optional<Images> findById(Long id);
 
+    Images findByHash(String hash);
+
     Page<Images> findAllByOrderByAnalyzedAtAsc(Pageable pageable);
     Page<Images> findAllByOrderByAnalyzedAtDesc(Pageable pageable);
     Images save(Images image);

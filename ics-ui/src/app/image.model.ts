@@ -43,4 +43,11 @@ export interface Image {
     first: boolean;
     empty: boolean;
   }
+  export interface ImagePage {
+    content: Image[];
+    number: number;  
+    totalPages: number;  
+  
+  }
+  
   

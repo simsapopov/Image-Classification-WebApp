@@ -41,7 +41,7 @@ public class Images implements Serializable {
   @Setter
   private Integer  width;
 
-  @Column(name = "height")
+  @Column(name = "hash")
   @Setter
-  private Integer  height;
+  private String  hash;
 }

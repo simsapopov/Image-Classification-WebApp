@@ -79,12 +79,13 @@ public class ImagesService {
 
     }
 
-    public Images saveImage(String Imgururl, String imageUrl) {
+    public Images saveImage(String Imgururl, String imageUrl,String hash) {
         Images newImage = new Images();
         if (!imageUrl.contains("http")) {
             newImage.setUrl(Imgururl);
         } else newImage.setUrl(imageUrl);
         newImage.setImgurlUrl(Imgururl);
+        newImage.setHash(hash);
         newImage.setAnalyzedAt(new Date());
         this.imagesRepository.saveAndFlush(newImage);
         return newImage;

@@ -22,7 +22,7 @@ public class ImaggaService {
     private final ImagesService imagesService;
     private final ImagesRepository imagesRepository;
     private final JsonParser jsonParser;
-
+    private final CheckSum checkSum;
 
     @Value("${imagga.api.key}")
     private String apiKey;
@@ -34,15 +34,24 @@ public class ImaggaService {
         JSONObject jsonObject = new JSONObject(jsonString);
         System.out.println(jsonObject);
         String imageUrl = jsonObject.getString("imageUrl");
-        Images image = imagesService.findImageByUrl(imageUrl);
+        String imageHash= checkSum.getChecksum(imageUrl);
+        Images image = imagesRepository.findByHash(imageHash);
         if (image != null) {
+
+            return image.getId().toString();
+        }
+        image = imagesService.findImageByUrl(imageUrl);
+        if (image != null) {
+
             return image.getId().toString();
         }
         String ImgurUrl = imgurService.uploadImage(imageUrl);
+        String CheckSum=  checkSum.getChecksum(ImgurUrl);
+        System.out.println("Vliza");
         if (throttleService.shouldThrottle()) {
             return "Rate limit exceeded. Please try again later.";
         }
-        image = imagesService.saveImage(ImgurUrl, imageUrl);
+        image = imagesService.saveImage(ImgurUrl, imageUrl,imageHash);
         System.out.println(imageUrl);
         System.out.println(ImgurUrl );
         List<Tag> tagList=new ArrayList<>();

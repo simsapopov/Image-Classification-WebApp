@@ -15,7 +15,7 @@ export class GalleryComponent implements OnInit {
   tagFormControl = new FormControl();
   inputFormControl = new FormControl();
   isAscending = true;
-  sortButtonText = 'Ascending';
+  sortButtonText = 'Asc By Date';
 
   page: number = 0;
   size: number = 10;
@@ -79,6 +79,11 @@ export class GalleryComponent implements OnInit {
 
   sortImages(): void {
     this.isAscending = !this.isAscending;
+    if(this.isAscending){
+      this.sortButtonText="Asc By Date"
+    }else{
+      this.sortButtonText="Desc By Date"
+    }
     this.page = 0;
     console.log('Sorting direction: ' + (this.isAscending ? 'asc' : 'desc'));
     this.loadImages();
@@ -134,7 +139,7 @@ public filterImagesByTag(tag: string, event: Event | null): void {
       queryParamsHandling: 'merge',
     });
   } else {
-    this.router.navigate(['/gallery']); // Navigate to the gallery route without any query parameters
+    this.router.navigate(['/gallery']);
   }
 }
 }

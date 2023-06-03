@@ -116,7 +116,7 @@ public class ImageClassificationController {
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "asc") String direction) {
-        System.out.println(direction);
+
         return imagesService.getAllImagesPage(pageNo, pageSize, direction);
     }
 
