@@ -3,6 +3,10 @@ package com.example.ics.service;
 import com.example.ics.entity.Images;
 import com.example.ics.reposittory.ImagesRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,7 +20,14 @@ public class ImagesService {
     private final TagService tagService;
 
     public List<Images> getAllImages() {
-        return imagesRepository.findAllByOrderByAnalyzedAtAsc();
+        return imagesRepository.findAll();
+    }
+    public Page<Images> getAllImagesPage(Integer pageNo, Integer pageSize, String direction) {
+        System.out.println(pageNo+direction);
+        Sort sort = direction.equalsIgnoreCase("asc") ? Sort.by("analyzedAt").ascending() : Sort.by("analyzedAt").descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        System.out.println(pageNo);
+        return imagesRepository.findAll(pageable);
     }
 
     public Images getImageFromId(Long id) {

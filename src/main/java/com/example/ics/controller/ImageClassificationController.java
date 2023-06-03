@@ -9,6 +9,7 @@ import com.example.ics.service.ImagesService;
 import com.example.ics.service.ImaggaService;
 import com.example.ics.service.TagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -110,6 +111,16 @@ public class ImageClassificationController {
         }
 
     }
+    @GetMapping("/all")
+    public Page<Images> getAllImages(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "asc") String direction) {
+        System.out.println(direction);
+        return imagesService.getAllImagesPage(pageNo, pageSize, direction);
+    }
+
+
 
     @GetMapping({"/message/{id}"})
     public String getMessage(@PathVariable Long id) {
@@ -118,6 +129,7 @@ public class ImageClassificationController {
 
     @GetMapping(value = {"/{tag}"})
     public ResponseEntity<List<Images>> getImagesWithTag(@PathVariable String tag) {
+        System.out.println(tag);
         List<Images> imagesList = imagesService.getAllImagesWithIdList(tagService.getImageIdsBySequence(tag));
         if (imagesList == null) {
             return ResponseEntity.notFound().build();
