@@ -17,7 +17,7 @@ public class ImageClassificationControllerTest {
     @BeforeEach
     public void setup() {
         RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 8079; // replace with your application's port
+        RestAssured.port = 8079;
     }
 
 //    @Test
@@ -31,12 +31,12 @@ public class ImageClassificationControllerTest {
 //                .post("/api/v2/classify/imagga")
 //                .then()
 //                .statusCode(200);
-//        // additional assertions here, like .body("someJsonPath", equalTo(someExpectedValue))
+//       
 //    }
 
-    // similar tests for /classify/clarifai, /getUniqueTags, /getimage/{tag}, /images/{id}, /images/{id}/tags etc.
 
-    // For example, testing a GET request:
+
+
     @Test
     public void testGetImages() {
         Response response =
@@ -69,19 +69,19 @@ public class ImageClassificationControllerTest {
         }
     }
 
-    // Test case for a DELETE request
+
     @Test
     public void testDeleteWithID() {
-        Integer id = 1; // Replace with the id of the image you want to delete
+        Integer id = 1;
 
         given()
                 .when()
                 .delete("/api/v2/images/" + id)
                 .then()
                 .statusCode(200);
-        // additional assertions here
+
     }
 
-    // add more test methods here for other endpoints
+
 
 }

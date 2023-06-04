@@ -23,7 +23,6 @@ public class Images implements Serializable {
   @JsonManagedReference
   @Setter
   private List<Tag> tags;
-
   @Column(name = "name")
   @Setter
   private String name;
