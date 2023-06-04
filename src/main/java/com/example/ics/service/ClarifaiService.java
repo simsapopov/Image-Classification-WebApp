@@ -41,9 +41,6 @@ public class ClarifaiService {
             return image.getId().toString();
         }
         String ImgurUrl = imgurService.uploadImage(imageUrl);
-        String CheckSum=  checkSum.getChecksum(ImgurUrl);
-        String CheckSum1=  checkSum.getChecksum(ImgurUrl);
-        String CheckSum2=  checkSum.getChecksum(ImgurUrl);
         if (throttleService.shouldThrottle()) {
             return "Rate limit exceeded. Please try again later.";
         }

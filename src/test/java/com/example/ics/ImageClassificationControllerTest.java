@@ -31,7 +31,7 @@ public class ImageClassificationControllerTest {
 //                .post("/api/v2/classify/imagga")
 //                .then()
 //                .statusCode(200);
-//       
+//
 //    }
 
 
