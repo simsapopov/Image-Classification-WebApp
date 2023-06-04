@@ -29,7 +29,11 @@ public class ImagesService {
         System.out.println(pageNo);
         return imagesRepository.findAll(pageable);
     }
-
+    public Page<Images> getAllImagesByTag(String tagName, Integer pageNo, Integer pageSize, String direction) {
+        Sort sort = direction.equalsIgnoreCase("asc") ? Sort.by("analyzedAt").ascending() : Sort.by("analyzedAt").descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        return imagesRepository.findAllByTagName(tagName, pageable);
+    }
     public Images getImageFromId(Long id) {
         if (id != null) {
             return imagesRepository.findById(id).orElse(null);

@@ -8,6 +8,7 @@ import com.example.ics.service.ClarifaiService;
 import com.example.ics.service.ImagesService;
 import com.example.ics.service.ImaggaService;
 import com.example.ics.service.TagService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class ImageClassificationController {
 
     @PostMapping("/classify/imagga")
     public String classify(@RequestBody String imageUrl) {
+        System.out.println(imageUrl);
         try {
             return imaggaService.classifyImage(imageUrl);
         } catch (Exception e) {
@@ -112,12 +114,25 @@ public class ImageClassificationController {
 
     }
     @GetMapping("/all")
-    public Page<Images> getAllImages(
+    public ResponseEntity<Page<Images>> getAllImages(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "asc") String direction) {
+            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam(required = false) String tag) {
 
-        return imagesService.getAllImagesPage(pageNo, pageSize, direction);
+        Page<Images> imagesPage;
+
+        if (tag == null || tag.isEmpty()) {
+            imagesPage = imagesService.getAllImagesPage(pageNo, pageSize, direction);
+        } else {
+            imagesPage = imagesService.getAllImagesByTag(tag, pageNo, pageSize, direction);
+        }
+
+        if (imagesPage.hasContent()) {
+            return ResponseEntity.ok(imagesPage);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
@@ -146,7 +161,7 @@ public class ImageClassificationController {
         List<Tag> tagList = new ArrayList<>();
        Images image = imagesService.getImageFromId(id);
         if(image == null){
-            return "There isn't immage with this id";
+            return "There isn't image with this id";
         }
         image.setTags(tagList);
         image.setAnalyzedAt(new Date());
@@ -159,7 +174,9 @@ public class ImageClassificationController {
             image.setTags(tagList);
         }
         imagesRepository.saveAndFlush(image);
-        return "Okay";
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonTags = objectMapper.writeValueAsString(image.getTags());
+        return jsonTags;
     }
 
 }

@@ -16,13 +16,17 @@ export class ImageService {
   getAllImages(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:8079/api/v2/images');
   }
-  getImages(page: number, size: number, sort: string): Observable<any> {
+  getImages(page: number, size: number, sort: string, tag: string | null): Observable<any> {
     let params = new HttpParams();
     params = params.append('pageNo', page.toString());
     params = params.append('pageSize', size.toString());
     params = params.append('direction', sort);
-    return this.http.get<any>(this.API_ENDPOINT_GETIMAGE+"/all", { params: params });
+    if(tag) {
+      params = params.append('tag', tag);
+    }
+    return this.http.get<any>(this.API_ENDPOINT_GETIMAGE + "/all", { params: params });
   }
+  
   classifyImage(imageUrl: string, servicee: string): Observable<any> {
     console.log(imageUrl);
 

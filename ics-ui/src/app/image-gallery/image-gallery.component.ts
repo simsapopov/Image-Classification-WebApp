@@ -18,8 +18,14 @@ export class GalleryComponent implements OnInit {
   sortButtonText = 'Asc By Date';
 
   page: number = 0;
+  totalPages: number = 0;
   size: number = 10;
-
+ filterParams = {
+    page: 0,
+    size: 10,
+    sort: 'asc',
+    tag: null,
+  };
   constructor(
     private imageService: ImageService,
     private route: ActivatedRoute,
@@ -47,23 +53,22 @@ export class GalleryComponent implements OnInit {
     });
   }
   
-  
   loadDefaultImages(): void {
     const sort = this.isAscending ? 'asc' : 'desc';
     const page = 0;
     const size = 10;
+    const tag = null;
   
-    this.imageService.getImages(page, size, sort).subscribe(
+    this.imageService.getImages(page, size, sort, tag).subscribe(
       (page: ImagePage) => {
         this.images = page.content;
+        this.totalPages = page.totalPages;
       },
       (error: any) => {
         console.error(error);
       }
     );
   }
-  
-  
 
   loadPrevious(): void {
     if (this.page > 0) {
@@ -73,8 +78,10 @@ export class GalleryComponent implements OnInit {
   }
   
   loadNext(): void {
-    this.page++;
-    this.loadImages();
+    if (this.page < this.totalPages - 1) {
+      this.page++;
+      this.loadImages();
+    }
   }
 
   sortImages(): void {
@@ -90,18 +97,20 @@ export class GalleryComponent implements OnInit {
   }
 
 
-loadImages(): void {
-  console.log(this.page);
-  this.imageService.getImages(this.page, this.size, this.isAscending ? 'asc' : 'desc').subscribe(
-    (page: ImagePage) => {
-      this.images = page.content; 
-    },
-    (error: any) => {
-      console.error(error);
-    }
-  );
-}
-loadImagesByTag(tag: string | null): void {
+  loadImages(): void {
+    console.log(this.page);
+    const tag = this.tagFormControl.value ? this.tagFormControl.value : null;
+    this.imageService.getImages(this.page, this.size, this.isAscending ? 'asc' : 'desc', tag).subscribe(
+      (page: ImagePage) => {
+        this.images = page.content; 
+        this.totalPages = page.totalPages;
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
+  }
+  ImagesByTag(tag: string | null): void {
   if (tag) {
     console.log('Searching with Tag: ' + tag);
 
@@ -140,6 +149,30 @@ public filterImagesByTag(tag: string, event: Event | null): void {
     });
   } else {
     this.router.navigate(['/gallery']);
+  }
+}
+loadImagesByTag(tag: string | null): void {
+  if (tag) {
+    console.log('Searching with Tag: ' + tag);
+
+    this.imageService.getImageByTag(tag).subscribe(
+      (images) => {
+        this.images = images;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  } else {
+    this.imageService.getAllImages().subscribe(
+      (images) => {
+        console.log('All images');
+        this.images = images;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 }
 }
