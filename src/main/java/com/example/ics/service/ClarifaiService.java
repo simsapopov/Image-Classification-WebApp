@@ -35,12 +35,14 @@ public class ClarifaiService {
             System.out.println(image.getId());
             return image.getId().toString();
 
-        } image = imagesService.findImageByUrl(imageUrl);
+        }
+        String ImgurUrl = imgurService.uploadImage(imageUrl);
+        image = imagesService.findImageByUrl(imageUrl);
         if (image != null) {
 
             return image.getId().toString();
         }
-        String ImgurUrl = imgurService.uploadImage(imageUrl);
+
         if (throttleService.shouldThrottle()) {
             return "Rate limit exceeded. Please try again later.";
         }

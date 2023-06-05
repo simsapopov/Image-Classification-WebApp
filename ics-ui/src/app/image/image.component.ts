@@ -8,6 +8,7 @@ interface Image {
   tags: Tag[];
   name: string;
   url: string;
+  imgur_url:string;
   message?: string;
 }
 
@@ -41,9 +42,9 @@ export class ResultComponent implements OnInit {
         .get<Image>(`http://localhost:8079/api/v2/images/${id}`)
         .subscribe(
           (data) => {
+            
             this.image = data;
             this.imageNotFound = false;
-
             this.http
               .get(`http://localhost:8079/api/v2/message/${id}`, {
                 responseType: 'text',

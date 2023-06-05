@@ -1,33 +1,38 @@
 <div class="container">
-    <div class="row">
-      <div class="col-6">
-        <ng-container *ngIf="!imageNotFound">
-          <img [src]="image?.url" alt="Image" style="width: 33%" >
-          <h3>{{image?.message}}:</h3>
-          <button class="btn btn-primary" (click)="replaceTags()">Remake Tags</button>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Tag</th>
-                <th scope="col">Percentage</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let tag of image?.tags; index as i">
-                <th scope="row">{{ i + 1 }}</th>
-                <td>{{ tag.tag }}</td>
-                <td>{{ tag.confidencePercentage | number:'1.2-2' }}%</td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
-        <ng-container *ngIf="imageNotFound"></ng-container>
-        <div class="col-6" *ngIf="imageNotFound">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png" alt="Image Not Found" style="width: 100%;">
-          <h3>Image Not Found</h3>
-        </div>
+  <div class="row">
+    <div class="col-6">
+      <ng-container *ngIf="!imageNotFound">
+        <img [src]="image?.url" alt="Image" style="width: 33%" />
+        <h3>{{ image?.message }}:</h3>
+        <button class="btn btn-primary" (click)="replaceTags()">
+          Remake Tags
+        </button>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Tag</th>
+              <th scope="col">Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tag of image?.tags; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ tag.tag }}</td>
+              <td>{{ tag.confidencePercentage | number : "1.2-2" }}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="imageNotFound"></ng-container>
+      <div class="col-6" *ngIf="imageNotFound">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"
+          alt="Image Not Found"
+          style="width: 100%"
+        />
+        <h3>Image Not Found</h3>
       </div>
     </div>
   </div>
-  
+</div>

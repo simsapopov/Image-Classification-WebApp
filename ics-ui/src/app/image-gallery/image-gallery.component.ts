@@ -3,7 +3,7 @@ import { ImageService } from '../image.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { Image, Tag, ImagePage } from '../image.model';  // Update this import as per your actual Image model path
+import { Image, Tag, ImagePage } from '../image.model'; // Update this import as per your actual Image model path
 
 @Component({
   selector: 'app-gallery',
@@ -20,7 +20,7 @@ export class GalleryComponent implements OnInit {
   page: number = 0;
   totalPages: number = 0;
   size: number = 10;
- filterParams = {
+  filterParams = {
     page: 0,
     size: 10,
     sort: 'asc',
@@ -39,12 +39,12 @@ export class GalleryComponent implements OnInit {
         this.filterImagesByTag(tag, null);
         this.tagFormControl.setValue(tag, { emitEvent: false });
       });
-  
+
     this.route.queryParamMap.subscribe((params) => {
       const tag = params.get('tag');
       this.tagFormControl.setValue(tag, { emitEvent: false });
       this.inputFormControl.setValue(tag, { emitEvent: false });
-  
+
       if (tag) {
         this.loadImagesByTag(tag);
       } else {
@@ -52,14 +52,13 @@ export class GalleryComponent implements OnInit {
       }
     });
   }
-  
+
   loadDefaultImages(): void {
-  
     const sort = this.isAscending ? 'asc' : 'desc';
     const page = 0;
     const size = 10;
     const tag = null;
-  
+
     this.imageService.getImages(page, size, sort, tag).subscribe(
       (page: ImagePage) => {
         this.images = page.content;
@@ -72,15 +71,13 @@ export class GalleryComponent implements OnInit {
   }
 
   loadPrevious(): void {
- 
     if (this.page > 0) {
       this.page--;
       this.loadImages();
     }
   }
-  
+
   loadNext(): void {
-   
     if (this.page < this.totalPages - 1) {
       this.page++;
       this.loadImages();
@@ -88,87 +85,84 @@ export class GalleryComponent implements OnInit {
   }
 
   sortImages(): void {
-    
     this.isAscending = !this.isAscending;
-    if(this.isAscending){
-      this.sortButtonText="Asc By Date"
-    }else{
-      this.sortButtonText="Desc By Date"
+    if (this.isAscending) {
+      this.sortButtonText = 'Asc By Date';
+    } else {
+      this.sortButtonText = 'Desc By Date';
     }
     this.page = 0;
 
     this.loadImages();
   }
 
-
   loadImages(): void {
-   
-   
     const tag = this.tagFormControl.value ? this.tagFormControl.value : null;
-    this.imageService.getImages(this.page, this.size, this.isAscending ? 'asc' : 'desc', tag).subscribe(
-      (page: ImagePage) => {
-        this.images = page.content; 
-        this.totalPages = page.totalPages;
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
+    this.imageService
+      .getImages(this.page, this.size, this.isAscending ? 'asc' : 'desc', tag)
+      .subscribe(
+        (page: ImagePage) => {
+          this.images = page.content;
+          this.totalPages = page.totalPages;
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
   }
   ImagesByTag(tag: string | null): void {
-   
-  if (tag) {
-    this.imageService.getImageByTag(tag).subscribe(
-      (images) => {
-        this.images = images;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  } else {
-    this.imageService.getAllImages().subscribe(
-      (images) => {
-        console.log('All images');
-        this.images = images;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-}
-
-public filterImagesByTag(tag: string, event: Event | null): void {
-  if (event) {
-    event.stopPropagation();
+    if (tag) {
+      this.imageService.getImageByTag(tag).subscribe(
+        (images) => {
+          this.images = images;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    } else {
+      this.imageService.getAllImages().subscribe(
+        (images) => {
+          console.log('All images');
+          this.images = images;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
 
-  if (tag) {
-    console.log(tag);
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { tag: tag },
-      queryParamsHandling: 'merge',
-    });
-  } else {
-    this.router.navigate(['/gallery']);
+  public filterImagesByTag(tag: string, event: Event | null): void {
+    if (event) {
+      event.stopPropagation();
+    }
+
+    if (tag) {
+      console.log(tag);
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { tag: tag },
+        queryParamsHandling: 'merge',
+      });
+    } else {
+      this.router.navigate(['/gallery']);
+    }
   }
-}
-loadImagesByTag(tag: string | null): void {
-  if (tag) {
-    console.log('Searching with Tag: ' + tag);
-    this.loadImages();
-  } else {
-    this.imageService.getAllImages().subscribe(
-      (images) => {
-        console.log('All images');
-        this.images = images;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  loadImagesByTag(tag: string | null): void {
+    if (tag) {
+      console.log('Searching with Tag: ' + tag);
+      this.loadImages();
+    } else {
+      this.imageService.getAllImages().subscribe(
+        (images) => {
+          console.log('All images');
+          this.images = images;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
-}
 }

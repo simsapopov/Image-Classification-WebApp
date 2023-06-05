@@ -58,13 +58,22 @@
   }
 
  
-.ics-div-one{
+.isc-div-one{
  width: 100%;
 }
-.ics-div-two{
+.isc-div-two{
   width: 100%;
  }
- .ics-div-three{
+ .isc-div-three{
   width: 100%;
   text-align: end;
  }
+ .ics-sor{
+  display: inline-block;
+  padding: 5px px;
+  background-color: #4AAED9;
+  color: black;
+  cursor: pointer;
+  border-radius: 50px;
+  
+}

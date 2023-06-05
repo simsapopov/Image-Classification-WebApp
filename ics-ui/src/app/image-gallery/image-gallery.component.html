@@ -1,16 +1,25 @@
 <div class="container">
-
-<div class="ics-Search">
-  <form clrForm class="input-form-container">
-    <div class="isc-div-one" style="width: 100%;"></div>
-    <div class="isc-div-two" style="width: 100%; text-align: left;"><clr-input-container>
-      <input type="text" style="width:100%;" clrInput id="Tag" placeholder="Enter image Tag" [formControl]="inputFormControl" />
-    </clr-input-container>
-  </div>
-  <div class="isc-div-three" style="width: 100%; text-align: end; ">
-    <button class="ics-sor" (click)="sortImages()" id="analyzeButton">{{ sortButtonText }}</button>
-  </div>
-  </form>
+  <div class="ics-Search">
+    <form clrForm class="input-form-container">
+      <div class="isc-div-one" ></div>
+      <div class="isc-div-two" >
+        <clr-input-container>
+          <input
+            type="text"
+            style="width: 100%"
+            clrInput
+            id="Tag"
+            placeholder="Enter image Tag"
+            [formControl]="inputFormControl"
+          />
+        </clr-input-container>
+      </div>
+      <div class="isc-div-three" >
+        <button class="ics-sor" (click)="sortImages()" id="analyzeButton">
+          {{ sortButtonText }}
+        </button>
+      </div>
+    </form>
   </div>
 
   <div class="container">
@@ -18,26 +27,36 @@
       <div class="clr-col-lg-4 clr-col-12" *ngFor="let image of images">
         <div [routerLink]="['/image', image.id]" class="card clickable">
           <div class="card-img">
-            <img [src]="image.url" alt="Image" class="uniform-img">
+            <img [src]="image.url" alt="Image" class="uniform-img" />
           </div>
           <div class="card-block">
             <p>
-              <strong>Image ID: </strong> {{ image.id }} <br>
+              <strong>Image ID: </strong> {{ image.id }} <br />
               <strong>Top Tags:</strong>
             </p>
-            <a *ngFor="let tag of image.tags.slice(0,5)" 
-               (click)="filterImagesByTag(tag.tag, $event)" 
-               class="label label-purple clickable">
+            <a
+              *ngFor="let tag of image.tags.slice(0, 5)"
+              (click)="filterImagesByTag(tag.tag, $event)"
+              class="label label-purple clickable"
+            >
               {{ tag.tag }}
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="pagination" >
-      <button class="ics-pageBtn"  *ngIf="page >0" (click)="loadPrevious()"><</button>
+    <div class="pagination">
+      <button class="ics-pageBtn" *ngIf="page > 0" (click)="loadPrevious()">
+        <
+      </button>
       <span class="page-number">Page: {{ page + 1 }}</span>
-      <button class="ics-pageBtn"  (click)="loadNext()">></button>
+      <button
+        class="ics-pageBtn"
+        *ngIf="page < totalPages - 1"
+        (click)="loadNext()"
+      >
+        >
+      </button>
     </div>
   </div>
 </div>
