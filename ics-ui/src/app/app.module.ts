@@ -11,6 +11,10 @@ import { ResultComponent } from './image/image.component';
 import { GalleryComponent } from './image-gallery/image-gallery.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { ClarityIcons, moonIcon , sunIcon } from '@cds/core/icon';
+
+ClarityIcons.addIcons(moonIcon);
+ClarityIcons.addIcons(sunIcon);
 @NgModule({schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     AppComponent,

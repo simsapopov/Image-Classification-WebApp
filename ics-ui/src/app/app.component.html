@@ -20,8 +20,8 @@
       >
     </div>
     <div class="header-actions">
-      <a href="..." class="nav-link nav-icon" aria-label="settings">
-        <cds-icon shape="moon"></cds-icon>
+      <a class="nav-link nav-icon" (click)="setTheme(!isLightTheme)" aria-label="settings">
+        <cds-icon [shape]="themeIcon"></cds-icon>
       </a>
     </div>
   </header>

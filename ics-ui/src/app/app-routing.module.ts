@@ -4,9 +4,7 @@ import { ClassifyComponent } from './classify/classify.component';
 import { ResultComponent } from './image/image.component';
 import { GalleryComponent } from './image-gallery/image-gallery.component';
 import '@cds/core/icon/register.js';
-import { ClarityIcons, moonIcon } from '@cds/core/icon';
 
-ClarityIcons.addIcons(moonIcon);
 
 const routes: Routes = [
   { path: 'classify', component: ClassifyComponent },
