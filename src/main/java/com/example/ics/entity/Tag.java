@@ -15,21 +15,21 @@ import java.io.Serializable;
 public class Tag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false,updatable = false)
+    @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(name = "tag",nullable = false,updatable = false)
+    @Column(name = "tag", nullable = false, updatable = false)
     @Setter
     private String tag;
-    @Column(name = "confidence_percentage",nullable = false,updatable = false)
+    @Column(name = "confidence_percentage", nullable = false, updatable = false)
     @Setter
     private double confidencePercentage;
 
 
-    @ManyToOne(fetch = FetchType.EAGER )
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    @JoinColumn(name = "image_id",referencedColumnName = "id")
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     @Setter
     private Images image;
 

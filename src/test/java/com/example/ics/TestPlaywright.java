@@ -24,7 +24,9 @@ public class TestPlaywright {
             Thread.sleep(250);
 
             page.click("button.btn-primary");
-
+            Thread.sleep(1500);
+            page.click("button.btn.btn-primary");
+            Thread.sleep(1500);
             String firstTag = page.textContent("table.table tbody tr:first-child td:nth-child(2)");
             String initialURL = page.url();
             System.out.println("First Tag: " + firstTag);

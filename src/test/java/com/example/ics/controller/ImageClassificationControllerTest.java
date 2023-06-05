@@ -5,9 +5,12 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -15,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
+@TestConfiguration
 class ImageClassificationControllerTest {
     private static String tagSaved;
     private static String imgIdSaved;
@@ -29,12 +33,25 @@ class ImageClassificationControllerTest {
 
     }
     @Test
-    public void testClassifyImage_ExceptionHandling() {
+    public void testClassifyImagga_ExceptionHandling() {
         given()
                 .contentType("application/json")
                 .body("{\"imageUr\":\"https://example.com/image.jpg\"}")
                 .when()
                 .post("/api/v2/classify/imagga")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .contentType("text/plain")
+                .content(is("An error occurred: No value for imageUrl"));
+    }
+    @Test
+    public void testClassifyClarifai_ExceptionHandling() {
+        given()
+                .contentType("application/json")
+                .body("{\"imageUr\":\"https://example.com/image.jpg\"}")
+                .when()
+                .post("/api/v2/classify/clarifai")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -167,7 +184,8 @@ class ImageClassificationControllerTest {
                 .get("api/v2/{tag}", tag)
                 .then()
                 .statusCode(200)
-                .body("size()", is(not(0)));  // check that the list is not empty
+                .body("size()", is(not(0)));
+
     }
 
     @Order(7)
@@ -189,7 +207,7 @@ class ImageClassificationControllerTest {
 
 
         imgIdSaved = response.jsonPath().getString("[0].id");
-
+        System.out.println(imgIdSaved);
 
         assertNotNull(imgIdSaved);
     }
@@ -199,7 +217,8 @@ class ImageClassificationControllerTest {
     public void testGetImageById() {
 
         Response response = given()
-                .get("/api/v2/images/{id}", 6)
+                .get("/api/v2/images/{id}", imgIdSaved
+                )
                 .then()
                 .statusCode(200)
                 .body("id", is(notNullValue()))
@@ -212,10 +231,17 @@ class ImageClassificationControllerTest {
                 .extract().response();
 
 
-        List<String> tags = response.jsonPath().getList("tags");
-        tagList = tags;
-        System.out.println(tags.toString());
-       assertTrue(tags.contains(tagSaved));
+        List<Map<String, ?>> tags = response.jsonPath().getList("tags");
+        List<String> tagList = new ArrayList<>();
+        for (Map<String, ?> tag : tags) {
+            if (tag.containsKey("tag")) {
+                tagList.add(tag.get("tag").toString());
+            }
+        }
+
+        System.out.println(tagList.toString());
+        System.out.println(tagSaved);
+        assertTrue(tagList.contains(tagSaved));
     }
     @Order(9)
     @Test
@@ -233,7 +259,20 @@ class ImageClassificationControllerTest {
         List<String> tags = response.jsonPath().getList("tags");
         assertFalse(tags.equals(tagList));
     }
+    @Order(10)
+    @Test
+    void testGetImagesWithTag_imageNotFound() throws Exception {
 
+
+        given()
+                .pathParam("id", imgId)
+                .when()
+                .get("api/v2/replacetags/{id}")
+                .then()
+                .statusCode(200)
+                .body(equalTo("There isn't image with this id"));
+
+    }
 
 
 

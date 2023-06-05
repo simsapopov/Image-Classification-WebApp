@@ -91,8 +91,10 @@ public class TagServiceTest {
 
         tagService.deleteTagsWithId(tagId);
 
-        verify(tagRepository, times(1)).deleteById(tagId);
+        verify(tagRepository, times(1)).deleteAllByImage_Id(tagId);
+        verify(tagRepository, times(0)).deleteById(tagId);
     }
+
     @Test
     void testConfidencePercentage() {
         double expectedConfidence = 0.75;

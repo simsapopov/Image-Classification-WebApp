@@ -53,11 +53,18 @@
   }
   .input-form-container {
     display: flex;
+
     justify-content: center;
   }
-  .ics-sor{
-    display: flex;
-    padding-right: 1000px;
-  }
+
  
- 
+.ics-div-one{
+ width: 100%;
+}
+.ics-div-two{
+  width: 100%;
+ }
+ .ics-div-three{
+  width: 100%;
+  text-align: end;
+ }

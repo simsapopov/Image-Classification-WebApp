@@ -6,7 +6,9 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -153,7 +155,7 @@ class IcsApplicationTests {
 	public void testGetImageById() {
 
 		Response response = given()
-				.get("/api/v2/images/{id}", 6)
+				.get("/api/v2/images/{id}", imgIdSaved)
 				.then()
 				.statusCode(200)
 				.body("id", is(notNullValue()))
@@ -166,10 +168,17 @@ class IcsApplicationTests {
 				.extract().response();
 
 
-		List<String> tags = response.jsonPath().getList("tags");
-		tagList = tags;
-		System.out.println(tags.toString());
-		assertTrue(tags.contains(tagSaved));
+		List<Map<String, ?>> tags = response.jsonPath().getList("tags");
+		List<String> tagList = new ArrayList<>();
+		for (Map<String, ?> tag : tags) {
+			if (tag.containsKey("tag")) {
+				tagList.add(tag.get("tag").toString());
+			}
+		}
+
+		System.out.println(tagList.toString());
+		System.out.println(tagSaved);
+		assertTrue(tagList.contains(tagSaved));
 	}
 	@Order(8)
 	@Test

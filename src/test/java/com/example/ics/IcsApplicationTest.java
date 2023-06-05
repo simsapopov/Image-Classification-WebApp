@@ -6,6 +6,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
-class IcsApplicationTestsа {
+@TestConfiguration
+class IcsApplicationTest {
     private static String tagSaved;
     private static String imgIdSaved;
     private static List<String> tagList = new ArrayList<>();

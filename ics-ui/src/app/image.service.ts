@@ -9,12 +9,13 @@ import { Observable } from 'rxjs';
 export class ImageService {
   private readonly API_ENDPOINT = 'http://localhost:8079/api/v2/classify';
   private readonly API_ENDPOINT_GETIMAGE = 'http://localhost:8079/api/v2';
+  private readonly API_ENDPOINT_GETALLIMAGES = 'http://localhost:8079/api/v2/images'
   
   getImagesByPartialTag: any;
 
   constructor(private http: HttpClient) {}
   getAllImages(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:8079/api/v2/images');
+    return this.http.get<any[]>(this.API_ENDPOINT_GETALLIMAGES);
   }
   getImages(page: number, size: number, sort: string, tag: string | null): Observable<any> {
     let params = new HttpParams();

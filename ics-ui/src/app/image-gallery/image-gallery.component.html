@@ -2,12 +2,14 @@
 
 <div class="ics-Search">
   <form clrForm class="input-form-container">
-    <div></div>
-    <div><clr-input-container>
-      <input type="text" clrInput id="Tag" placeholder="Enter image Tag" [formControl]="inputFormControl" />
+    <div class="isc-div-one" style="width: 100%;"></div>
+    <div class="isc-div-two" style="width: 100%; text-align: left;"><clr-input-container>
+      <input type="text" style="width:100%;" clrInput id="Tag" placeholder="Enter image Tag" [formControl]="inputFormControl" />
     </clr-input-container>
   </div>
-    <button class="ics-sort"  (click)="sortImages()" id="analyzeButton">{{ sortButtonText }}</button>
+  <div class="isc-div-three" style="width: 100%; text-align: end; ">
+    <button class="ics-sor" (click)="sortImages()" id="analyzeButton">{{ sortButtonText }}</button>
+  </div>
   </form>
   </div>
 

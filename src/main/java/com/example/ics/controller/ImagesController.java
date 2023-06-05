@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/images")
 public class ImagesController {
-  private final ImagesService imagesService;
+    private final ImagesService imagesService;
 
-  @Autowired
+    @Autowired
     public ImagesController(ImagesService imagesService) {
-    this.imagesService = imagesService;
-  }
+        this.imagesService = imagesService;
+    }
 
 
 }

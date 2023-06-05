@@ -44,11 +44,13 @@ public class ImageClassificationController {
 
 
     @PostMapping("/classify/clarifai")
-    public String other(@RequestBody String imageUrl) {
+    public ResponseEntity<String> other(@RequestBody String imageUrl) {
         try {
-            return clarifaiService.classifyClarifai(imageUrl);
+            String result = clarifaiService.classifyClarifai(imageUrl);
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
         }
     }
 

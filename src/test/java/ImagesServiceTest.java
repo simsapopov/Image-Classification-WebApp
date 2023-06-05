@@ -14,6 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+
 class ImagesServiceTest {
     private ImagesService imagesService;
 
@@ -30,7 +31,7 @@ class ImagesServiceTest {
     }
 
     @Test
-    void testGetAllImages() {
+    void TestGetAllImages() {
         List<Images> expectedImages = Arrays.asList(
                 createImage(1L, "image1.jpg"),
                 createImage(2L, "image2.jpg")

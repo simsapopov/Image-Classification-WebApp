@@ -14,33 +14,33 @@ import java.util.List;
 @Getter
 @Table(name = "IMAGE")
 public class Images implements Serializable {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id",nullable = false,updatable = false)
-  @Setter()
-  private Long id;
-  @OneToMany(mappedBy = "image", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-  @JsonManagedReference
-  @Setter
-  private List<Tag> tags;
-  @Column(name = "name")
-  @Setter
-  private String name;
-  @Column(name = "url",updatable = false)
-  @Setter
-  private String url;
-  @Column(name = "imgurlUrl",updatable = false,nullable = false)
-  @Setter
-  private String imgurlUrl;
-  @Column(name = "analyzedAt")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Setter
-  private Date analyzedAt;
-  @Column(name = "width")
-  @Setter
-  private Integer  width;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false)
+    @Setter()
+    private Long id;
+    @OneToMany(mappedBy = "image", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @Setter
+    private List<Tag> tags;
+    @Column(name = "name")
+    @Setter
+    private String name;
+    @Column(name = "url", updatable = false)
+    @Setter
+    private String url;
+    @Column(name = "imgurlUrl", updatable = false, nullable = false)
+    @Setter
+    private String imgurlUrl;
+    @Column(name = "analyzedAt")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Setter
+    private Date analyzedAt;
+    @Column(name = "width")
+    @Setter
+    private Integer width;
 
-  @Column(name = "hash")
-  @Setter
-  private String  hash;
+    @Column(name = "hash")
+    @Setter
+    private String hash;
 }
