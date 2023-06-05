@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ThrottleService {
 
-    public RateLimiter rateLimiter = RateLimiter.create(100.0/3600.0);
+    public RateLimiter rateLimiter = RateLimiter.create(10000.0/3600.0);
 
     public boolean shouldThrottle() {
+        System.out.println(rateLimiter);
         return !rateLimiter.tryAcquire();
     }
 }

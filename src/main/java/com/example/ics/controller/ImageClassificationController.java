@@ -11,6 +11,7 @@ import com.example.ics.service.TagService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,13 @@ public class ImageClassificationController {
 
 
     @PostMapping("/classify/imagga")
-    public String classify(@RequestBody String imageUrl) {
-        System.out.println(imageUrl);
+    public ResponseEntity<?> classify(@RequestBody String imageUrl) {
         try {
-            return imaggaService.classifyImage(imageUrl);
+            String result = imaggaService.classifyImage(imageUrl);
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
         }
     }
 
@@ -113,6 +115,7 @@ public class ImageClassificationController {
         }
 
     }
+
     @GetMapping("/all")
     public ResponseEntity<Page<Images>> getAllImages(
             @RequestParam(defaultValue = "0") Integer pageNo,
@@ -136,7 +139,6 @@ public class ImageClassificationController {
     }
 
 
-
     @GetMapping({"/message/{id}"})
     public String getMessage(@PathVariable Long id) {
         return imagesService.getMessege(id);
@@ -156,20 +158,21 @@ public class ImageClassificationController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping(value = {"replacetags/{id}"})
     public String getImagesWithTag(@PathVariable Long id) throws Exception {
         List<Tag> tagList = new ArrayList<>();
-       Images image = imagesService.getImageFromId(id);
-        if(image == null){
+        Images image = imagesService.getImageFromId(id);
+        if (image == null) {
             return "There isn't image with this id";
         }
         image.setTags(tagList);
         image.setAnalyzedAt(new Date());
         tagService.deleteTagsWithId(id);
-        if(image.getName().equals("Imagga")){
+        if (image.getName().equals("Imagga")) {
             tagList = clarifaiService.GetTagsListClarifai(image);
             image.setTags(tagList);
-        }else if(image.getName().equals("Clarifai")){
+        } else if (image.getName().equals("Clarifai")) {
             tagList = imaggaService.GetTagsListImagga(image);
             image.setTags(tagList);
         }

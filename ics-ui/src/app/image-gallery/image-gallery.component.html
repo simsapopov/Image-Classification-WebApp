@@ -32,10 +32,10 @@
         </div>
       </div>
     </div>
-    <div class="pagination" *ngIf="!inputFormControl.value">
+    <div class="pagination" >
       <button class="ics-pageBtn"  *ngIf="page >0" (click)="loadPrevious()"><</button>
       <span class="page-number">Page: {{ page + 1 }}</span>
-      <button class="ics-pageBtn" *ngIf="page < totalPages - 1" (click)="loadNext()">></button>
+      <button class="ics-pageBtn"  (click)="loadNext()">></button>
     </div>
   </div>
 </div>

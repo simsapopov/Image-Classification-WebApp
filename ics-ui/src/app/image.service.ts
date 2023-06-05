@@ -46,7 +46,6 @@ export class ImageService {
 }
 
   getImageByTag(tag: string): Observable<any[]> {
-    console.log(tag);
     return this.http.get<any[]>(`${this.API_ENDPOINT_GETIMAGE}/${tag}`);
   }
   transformUrl(imageUrl: string): string {

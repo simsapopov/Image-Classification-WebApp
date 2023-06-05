@@ -20,6 +20,10 @@ export interface Tag {
   styleUrls: ['./image-gallery.component.scss']
 })
 export class GalleryComponent implements OnInit {
+loadMore() {
+
+throw new Error('Method not implemented.');
+}
   images: any[] | undefined;
 
 

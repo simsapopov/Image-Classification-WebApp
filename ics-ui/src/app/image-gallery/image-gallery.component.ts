@@ -54,6 +54,7 @@ export class GalleryComponent implements OnInit {
   }
   
   loadDefaultImages(): void {
+  
     const sort = this.isAscending ? 'asc' : 'desc';
     const page = 0;
     const size = 10;
@@ -71,6 +72,7 @@ export class GalleryComponent implements OnInit {
   }
 
   loadPrevious(): void {
+ 
     if (this.page > 0) {
       this.page--;
       this.loadImages();
@@ -78,6 +80,7 @@ export class GalleryComponent implements OnInit {
   }
   
   loadNext(): void {
+   
     if (this.page < this.totalPages - 1) {
       this.page++;
       this.loadImages();
@@ -85,6 +88,7 @@ export class GalleryComponent implements OnInit {
   }
 
   sortImages(): void {
+    
     this.isAscending = !this.isAscending;
     if(this.isAscending){
       this.sortButtonText="Asc By Date"
@@ -92,13 +96,14 @@ export class GalleryComponent implements OnInit {
       this.sortButtonText="Desc By Date"
     }
     this.page = 0;
-    console.log('Sorting direction: ' + (this.isAscending ? 'asc' : 'desc'));
+
     this.loadImages();
   }
 
 
   loadImages(): void {
-    console.log(this.page);
+   
+   
     const tag = this.tagFormControl.value ? this.tagFormControl.value : null;
     this.imageService.getImages(this.page, this.size, this.isAscending ? 'asc' : 'desc', tag).subscribe(
       (page: ImagePage) => {
@@ -111,9 +116,8 @@ export class GalleryComponent implements OnInit {
     );
   }
   ImagesByTag(tag: string | null): void {
+   
   if (tag) {
-    console.log('Searching with Tag: ' + tag);
-
     this.imageService.getImageByTag(tag).subscribe(
       (images) => {
         this.images = images;
@@ -154,15 +158,7 @@ public filterImagesByTag(tag: string, event: Event | null): void {
 loadImagesByTag(tag: string | null): void {
   if (tag) {
     console.log('Searching with Tag: ' + tag);
-
-    this.imageService.getImageByTag(tag).subscribe(
-      (images) => {
-        this.images = images;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    this.loadImages();
   } else {
     this.imageService.getAllImages().subscribe(
       (images) => {

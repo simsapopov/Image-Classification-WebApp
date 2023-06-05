@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>ics</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>ics</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -43,6 +43,12 @@
 			<artifactId>jakarta.validation-api</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.microsoft.playwright</groupId>
+			<artifactId>playwright</artifactId>
+			<version>1.34.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.clarifai</groupId>
 			<artifactId>clarifai-grpc</artifactId>
