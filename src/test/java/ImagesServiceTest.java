@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 @TestConfiguration
 
 
-class ImagesServiceTest {
+public class ImagesServiceTest {
     private ImagesService imagesService;
 
     @Mock
@@ -27,13 +27,13 @@ class ImagesServiceTest {
     private TagService tagService;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
         imagesService = new ImagesService(imagesRepository, tagService);
     }
 
     @Test
-    void TestGetAllImages() {
+    public void TestGetAllImages() {
         List<Images> expectedImages = Arrays.asList(
                 createImage(1L, "image1.jpg"),
                 createImage(2L, "image2.jpg")
@@ -47,7 +47,7 @@ class ImagesServiceTest {
     }
 
     @Test
-    void testGetImageFromId() {
+    public  void testGetImageFromId() {
         Images expectedImage = createImage(1L, "image1.jpg");
         when(imagesRepository.findById(1L)).thenReturn(Optional.of(expectedImage));
 
