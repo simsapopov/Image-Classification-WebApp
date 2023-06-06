@@ -13,14 +13,14 @@
       </a>
     </div>
     <div class="header-nav">
-      <a routerLink="/classify" class="active nav-link" aria-current="page"
+      <a routerLink="/classify" class="nav-link" aria-current="page"
         ><span class="nav-text">Classify</span></a
       >
       <a routerLink="/gallery" class="nav-link" 
         ><span class="nav-text">Gallery</span></a
       >
     </div>
-    <div class="header-actions">
+    <div class="header-actions set-theme-button">
       <a class="nav-link nav-icon" (click)="setTheme(!isLightTheme)" aria-label="settings">
         <cds-icon [shape]="themeIcon"></cds-icon>
       </a>

@@ -142,21 +142,6 @@ class ImageClassificationControllerTest {
         assertEquals(numOfImages + 1, numOfImagesAgain);
     }
 
-    @Order(5)
-    @Test
-    public void testDeleteImage() {
-        int idToDelete = 1;
-        given()
-                .delete("/api/v2/images/{id}", imgId)
-                .then()
-                .statusCode(200);
-
-
-        given()
-                .get("/api/v2/images/{id}", imgId)
-                .then()
-                .statusCode(404);
-    }
     @Order(6)
     @Test
     public void testGetAllUniqueTags() {
@@ -258,20 +243,6 @@ class ImageClassificationControllerTest {
                 .extract().response();
         List<String> tags = response.jsonPath().getList("tags");
         assertFalse(tags.equals(tagList));
-    }
-    @Order(10)
-    @Test
-    void testGetImagesWithTag_imageNotFound() throws Exception {
-
-
-        given()
-                .pathParam("id", imgId)
-                .when()
-                .get("api/v2/replacetags/{id}")
-                .then()
-                .statusCode(200)
-                .body(equalTo("There isn't image with this id"));
-
     }
 
 

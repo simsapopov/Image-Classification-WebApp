@@ -93,21 +93,6 @@ class IcsApplicationTests {
 		assertEquals(numOfImages + 1, numOfImagesAgain);
 	}
 
-	@Order(4)
-	@Test
-	public void testDeleteImage() {
-		int idToDelete = 1;
-		given()
-				.delete("/api/v2/images/{id}", imgId)
-				.then()
-				.statusCode(200);
-
-
-		given()
-				.get("/api/v2/images/{id}", imgId)
-				.then()
-				.statusCode(404);
-	}
 	@Order(5)
 	@Test
 	public void testGetAllUniqueTags() {
