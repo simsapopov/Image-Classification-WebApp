@@ -1,7 +1,7 @@
 .ics-mb-3 {
   margin-bottom: 1rem;
 }
-.clr-form-control{
+.clr-form-control {
   display: inline;
 }
 
@@ -9,25 +9,24 @@
   display: block;
 }
 
-.url-input{
-    width: 75%;
+.url-input {
+  width: 75%;
 }
-// .form-group{
-//   margin-left: 5%;
-// }
-.clr-innput{
+.clr-innput {
   width: 50%;
 }
 .file-upload-label {
   display: inline-block;
-  padding: 10px 20px;
-  background-color: #4AAED9;
-  color: black;
+  height: 35px; 
+  line-height: 35px; 
+  padding: 0 40px; 
   cursor: pointer;
-  border-radius: 50px;
-  
+  border-radius: 35px;
+  text-align: center; 
 }
-.btn-primary{
+
+
+.btn-primary {
   border-radius: 50px;
 }
 .form-layout {
@@ -56,10 +55,10 @@
 .button-container {
   display: flex;
   align-items: center;
-  margin-left: 10px; 
+  margin-left: 10px;
   margin-top: 3%;
 }
 
 .clr-combobox-container {
-  margin-right: 10px; /* adjust this value to add space between the comboboxes */
+  margin-right: 10px;
 }

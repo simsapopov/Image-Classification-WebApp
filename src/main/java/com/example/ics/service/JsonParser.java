@@ -34,7 +34,10 @@ public class JsonParser {
             if (confidence < 30) {
                 break;
             }
-            Tag NewTag = new Tag(tag, confidence, imageService.findImageByUrl(url));
+            Tag NewTag = new Tag();
+            NewTag.setTag(tag);
+            NewTag.setConfidencePercentage(confidence);
+            NewTag.setImage(imageService.findImageByUrl(url));
             i++;
             tagList.add(NewTag);
         }

@@ -36,9 +36,4 @@ public class Tag implements Serializable {
     public Tag() {
     }
 
-    public Tag(String tag, double confidencePercentage, Images image) {
-        this.tag = tag;
-        this.confidencePercentage = confidencePercentage;
-        this.image = image;
-    }
 }

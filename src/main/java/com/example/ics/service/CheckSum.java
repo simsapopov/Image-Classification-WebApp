@@ -17,7 +17,6 @@ public class CheckSum {
                 byte[] imageBytes = response.getBody();
                 if (imageBytes != null) {
                     String checksum = DigestUtils.sha256Hex(imageBytes);
-                    System.out.println(checksum);
                     return checksum;
                 }
             } catch (Exception e) {

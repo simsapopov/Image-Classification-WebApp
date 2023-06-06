@@ -30,7 +30,7 @@ public class ImaggaService {
     @Value("${imagga.api.secret}")
     private String apiSecret;
 
-    public String classifyImage(String jsonString) throws Exception {
+    public String classifyImageWithImagga(String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
         System.out.println(jsonObject);
         String imageUrl = jsonObject.getString("imageUrl");
@@ -47,17 +47,13 @@ public class ImaggaService {
         }
         String ImgurUrl = imgurService.uploadImage(imageUrl);
         String CheckSum = checkSum.getChecksum(ImgurUrl);
-        System.out.println("Vliza");
         if (throttleService.shouldThrottle()) {
-            System.out.println("Rate Limit");
             return "Rate limit exceeded. Please try again later.";
         }
         image = imagesService.saveImage(ImgurUrl, imageUrl, imageHash);
-        System.out.println(imageUrl);
-        System.out.println(ImgurUrl);
         List<Tag> tagList = new ArrayList<>();
         try {
-            tagList = GetTagsListImagga(image);
+            tagList = getTagsListImagga(image);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -68,7 +64,7 @@ public class ImaggaService {
         return image.getId().toString();
     }
 
-    public List<Tag> GetTagsListImagga(Images image) throws Exception {
+    public List<Tag> getTagsListImagga(Images image) throws Exception {
         image.setName("Imagga");
         RestTemplate restTemplate = new RestTemplate();
         String ImgurUrl = image.getImgurlUrl();

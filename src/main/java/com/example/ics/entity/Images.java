@@ -36,10 +36,6 @@ public class Images implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Setter
     private Date analyzedAt;
-    @Column(name = "width")
-    @Setter
-    private Integer width;
-
     @Column(name = "hash")
     @Setter
     private String hash;

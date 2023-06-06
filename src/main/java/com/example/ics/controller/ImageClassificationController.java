@@ -34,7 +34,10 @@ public class ImageClassificationController {
     @PostMapping("/classify/imagga")
     public ResponseEntity<?> classify(@RequestBody String imageUrl) {
         try {
-            String result = imaggaService.classifyImage(imageUrl);
+            String result = imaggaService.classifyImageWithImagga(imageUrl);
+            if (result.equals("Rate limit exceeded. Please try again later.")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -46,7 +49,10 @@ public class ImageClassificationController {
     @PostMapping("/classify/clarifai")
     public ResponseEntity<String> other(@RequestBody String imageUrl) {
         try {
-            String result = clarifaiService.classifyClarifai(imageUrl);
+            String result = clarifaiService.classifyImageWithClarifai(imageUrl);
+            if (result.equals("Rate limit exceeded. Please try again later.")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -121,7 +127,7 @@ public class ImageClassificationController {
     @GetMapping("/all")
     public ResponseEntity<Page<Images>> getAllImages(
             @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "12") Integer pageSize,
             @RequestParam(defaultValue = "asc") String direction,
             @RequestParam(required = false) String tag) {
 
@@ -148,7 +154,6 @@ public class ImageClassificationController {
 
     @GetMapping(value = {"/{tag}"})
     public ResponseEntity<List<Images>> getImagesWithTag(@PathVariable String tag) {
-        System.out.println(tag);
         List<Images> imagesList = imagesService.getAllImagesWithIdList(tagService.getImageIdsBySequence(tag));
         if (imagesList == null) {
             return ResponseEntity.notFound().build();
@@ -172,10 +177,10 @@ public class ImageClassificationController {
         image.setAnalyzedAt(new Date());
         tagService.deleteTagsWithId(id);
         if (image.getName().equals("Imagga")) {
-            tagList = clarifaiService.GetTagsListClarifai(image);
+            tagList = clarifaiService.getTagsListClarifai(image);
             image.setTags(tagList);
         } else if (image.getName().equals("Clarifai")) {
-            tagList = imaggaService.GetTagsListImagga(image);
+            tagList = imaggaService.getTagsListImagga(image);
             image.setTags(tagList);
         }
         imagesRepository.saveAndFlush(image);

@@ -10,6 +10,7 @@ export class ImageService {
   private readonly API_ENDPOINT = 'http://localhost:8079/api/v2/classify';
   private readonly API_ENDPOINT_GETIMAGE = 'http://localhost:8079/api/v2';
   private readonly API_ENDPOINT_GETALLIMAGES = 'http://localhost:8079/api/v2/images'
+  private readonly API_ENDPOINT_PAGE = 'http://localhost:8080/images/all'
   
   getImagesByPartialTag: any;
 
@@ -43,7 +44,7 @@ export class ImageService {
         .set('page', page.toString())
         .set('size', size.toString())
         .set('sortDirection', sortDirection);
-    return this.http.get('http://localhost:8080/images/all', { params: params });
+    return this.http.get(this.API_ENDPOINT_PAGE, { params: params });
 }
 
   getImageByTag(tag: string): Observable<any[]> {

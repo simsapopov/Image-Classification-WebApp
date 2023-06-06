@@ -1,4 +1,3 @@
-
 package com.example.ics.service;
 
 import com.clarifai.channel.ClarifaiChannel;
@@ -25,14 +24,14 @@ public class ClarifaiService {
     private final ThrottleService throttleService;
     private final CheckSum checkSum;
 
-    public String classifyClarifai(String jsonString) throws Exception {
+    public String classifyImageWithClarifai(String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
 
         String imageUrl = jsonObject.getString("imageUrl");
-        String imageHash= checkSum.getChecksum(imageUrl);
+        String imageHash = checkSum.getChecksum(imageUrl);
         Images image = imagesRepository.findByHash(imageHash);
         if (image != null) {
-            System.out.println(image.getId());
+
             return image.getId().toString();
 
         }
@@ -44,11 +43,12 @@ public class ClarifaiService {
         }
 
         if (throttleService.shouldThrottle()) {
+
             return "Rate limit exceeded. Please try again later.";
         }
 
-        image = imagesService.saveImage(ImgurUrl, imageUrl,imageHash);
-        List<Tag> tagList = GetTagsListClarifai(image);
+        image = imagesService.saveImage(ImgurUrl, imageUrl, imageHash);
+        List<Tag> tagList = getTagsListClarifai(image);
         tagService.addTags(tagList, image);
         image.setTags(tagList);
         imagesRepository.saveAndFlush(image);
@@ -56,7 +56,7 @@ public class ClarifaiService {
 
     }
 
-    public List<Tag> GetTagsListClarifai(Images image) {
+    public List<Tag> getTagsListClarifai(Images image) {
         image.setName("Clarifai");
         V2Grpc.V2BlockingStub stub = V2Grpc.newBlockingStub(ClarifaiChannel.INSTANCE.getGrpcChannel())
                 .withCallCredentials(new ClarifaiCallCredentials("edc51e099d9f405e8d0ee69b1aa1ee57"));

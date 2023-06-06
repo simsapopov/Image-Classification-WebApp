@@ -3,7 +3,8 @@ import { ImageService } from '../image.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { Image, Tag, ImagePage } from '../image.model'; // Update this import as per your actual Image model path
+import { Image, Tag, ImagePage } from '../image.model';
+
 
 @Component({
   selector: 'app-gallery',
@@ -19,17 +20,18 @@ export class GalleryComponent implements OnInit {
 
   page: number = 0;
   totalPages: number = 0;
-  size: number = 10;
+  size: number = 12;
   filterParams = {
     page: 0,
-    size: 10,
+    size: 12,
     sort: 'asc',
     tag: null,
   };
   constructor(
     private imageService: ImageService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +58,7 @@ export class GalleryComponent implements OnInit {
   loadDefaultImages(): void {
     const sort = this.isAscending ? 'asc' : 'desc';
     const page = 0;
-    const size = 10;
+    const size = 12;
     const tag = null;
 
     this.imageService.getImages(page, size, sort, tag).subscribe(
@@ -139,10 +141,10 @@ export class GalleryComponent implements OnInit {
     }
 
     if (tag) {
-      console.log(tag);
+      this.page=0;
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { tag: tag },
+        queryParams: { tag: tag},
         queryParamsHandling: 'merge',
       });
     } else {

@@ -1,8 +1,13 @@
+
 <div class="container">
+  <div class="back-button-container">
+    <button clrButton class="btn btn-primary" (click)="back()">Back</button>
+  </div>
   <div class="row">
     <div class="col-6">
+      
       <ng-container *ngIf="!imageNotFound">
-        <img [src]="image?.url" alt="Image" style="width: 33%" />
+        <img [src]="image?.imgurlUrl" alt="Image" style="width: 33%" />
         <h3>{{ image?.message }}:</h3>
         <button class="btn btn-primary" (click)="replaceTags()">
           Remake Tags

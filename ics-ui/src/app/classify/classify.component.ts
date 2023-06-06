@@ -19,13 +19,12 @@ export class ClassifyComponent implements OnInit {
   classifyButtonClicked = false;
   public imageUrlControl: AbstractControl;
   selectedFile: any;
-  selectedFileName: string | null = null
+  selectedFileName: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private imageService: ImageService,
     private router: Router
-
   ) {
     this.classifyForm = this.fb.group({
       ['imageUrl']: ['', Validators.required],
@@ -35,9 +34,7 @@ export class ClassifyComponent implements OnInit {
     this.imageUrlControl = this.classifyForm.controls['imageUrl'];
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;

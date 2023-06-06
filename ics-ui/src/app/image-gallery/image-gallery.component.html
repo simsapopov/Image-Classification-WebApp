@@ -15,7 +15,7 @@
         </clr-input-container>
       </div>
       <div class="isc-div-three" >
-        <button class="ics-sor" (click)="sortImages()" id="analyzeButton">
+        <button class="ics-sort btn btn-primary" (click)="sortImages()" id="analyzeButton">
           {{ sortButtonText }}
         </button>
       </div>
@@ -46,12 +46,12 @@
       </div>
     </div>
     <div class="pagination">
-      <button class="ics-pageBtn" *ngIf="page > 0" (click)="loadPrevious()">
+      <button class="ics-pageBtn btn btn-primary" *ngIf="page > 0" (click)="loadPrevious()">
         <
       </button>
       <span class="page-number">Page: {{ page + 1 }}</span>
       <button
-        class="ics-pageBtn"
+        class="ics-pageBtn btn btn-primary ics-pageBtnNext"
         *ngIf="page < totalPages - 1"
         (click)="loadNext()"
       >

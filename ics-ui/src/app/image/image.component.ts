@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ImageService } from '../image.service';
+import { Location } from '@angular/common';
 
 interface Image {
   id: number;
   tags: Tag[];
   name: string;
   url: string;
-  imgur_url:string;
+  imgurlUrl:string;
   message?: string;
 }
 
@@ -29,6 +30,7 @@ export class ResultComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private location: Location,
     private http: HttpClient,
     private imageService: ImageService,
     private router: Router
@@ -42,7 +44,7 @@ export class ResultComponent implements OnInit {
         .get<Image>(`http://localhost:8079/api/v2/images/${id}`)
         .subscribe(
           (data) => {
-            
+            console.log(data);
             this.image = data;
             this.imageNotFound = false;
             this.http
@@ -53,6 +55,7 @@ export class ResultComponent implements OnInit {
                 (response) => {
                   if (this.image) {
                     this.image.message = response;
+                    
                   }
                 },
                 (error) => console.error('Error:', error)
@@ -65,7 +68,9 @@ export class ResultComponent implements OnInit {
         );
     });
   }
-
+  back(): void {
+    this.location.back();
+  }
   replaceTags(): void {
     if (this.image) {
       const id = this.image.id;

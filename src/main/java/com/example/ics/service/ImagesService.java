@@ -22,18 +22,19 @@ public class ImagesService {
     public List<Images> getAllImages() {
         return imagesRepository.findAll();
     }
+
     public Page<Images> getAllImagesPage(Integer pageNo, Integer pageSize, String direction) {
-        System.out.println(pageNo+direction);
         Sort sort = direction.equalsIgnoreCase("asc") ? Sort.by("analyzedAt").ascending() : Sort.by("analyzedAt").descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        System.out.println(pageNo);
         return imagesRepository.findAll(pageable);
     }
+
     public Page<Images> getAllImagesByTag(String tagName, Integer pageNo, Integer pageSize, String direction) {
         Sort sort = direction.equalsIgnoreCase("asc") ? Sort.by("analyzedAt").ascending() : Sort.by("analyzedAt").descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         return imagesRepository.findAllByTagName(tagName, pageable);
     }
+
     public Images getImageFromId(Long id) {
         if (id != null) {
             return imagesRepository.findById(id).orElse(null);
@@ -83,7 +84,7 @@ public class ImagesService {
 
     }
 
-    public Images saveImage(String Imgururl, String imageUrl,String hash) {
+    public Images saveImage(String Imgururl, String imageUrl, String hash) {
         Images newImage = new Images();
         if (!imageUrl.contains("http")) {
             newImage.setUrl(Imgururl);

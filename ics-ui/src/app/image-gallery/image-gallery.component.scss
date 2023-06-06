@@ -41,15 +41,16 @@
   
   .page-number {
     text-align: center;
+    padding: auto;
   }
   .ics-pageBtn {
     display: inline-block;
-    padding: 5px px;
-    background-color: #4AAED9;
-    color: black;
-    cursor: pointer;
-    border-radius: 50px;
-    
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 50px;    
+  }
+  .ics-pageBtnNext{
+    justify-content: left;
   }
   .input-form-container {
     display: flex;
@@ -68,12 +69,18 @@
   width: 100%;
   text-align: end;
  }
- .ics-sor{
+ .ics-sort{
   display: inline-block;
-  padding: 5px px;
-  background-color: #4AAED9;
-  color: black;
-  cursor: pointer;
-  border-radius: 50px;
-  
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 50px;  
+}
+.pagination {
+ 
+    display: flex;
+    align-items: center;
+  margin-top: 20px;
+}
+.btn{
+  margin-right: 0px;
 }
