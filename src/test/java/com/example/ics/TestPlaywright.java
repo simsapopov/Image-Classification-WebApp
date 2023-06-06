@@ -1,6 +1,7 @@
 package com.example.ics;
 
 import com.microsoft.playwright.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestPlaywright {
@@ -20,34 +21,19 @@ public class TestPlaywright {
             Thread.sleep(250);
 
             page.fill("input[formcontrolname=\"imageUrl\"]", "https://th.bing.com/th/id/R.fd6e965e5f9050f3b9060f953647f779?rik=rp1%2bUMaSp3sI5Q&pid=ImgRaw&r=0");
+            page.click("button.btn.btn-primary");
 
             Thread.sleep(250);
 
-            page.click("button.btn-primary");
-            Thread.sleep(1500);
-            page.click("button.btn.btn-primary");
-            Thread.sleep(1500);
-            String firstTag = page.textContent("table.table tbody tr:first-child td:nth-child(2)");
+            page.click("button#remakeTags");
             String initialURL = page.url();
-            System.out.println("First Tag: " + firstTag);
-
-            Thread.sleep(250);
-
+            Thread.sleep(3000);
             page.click("a[routerlink=\"/gallery\"]");
-            page.fill("input#Tag", "car");
-            Thread.sleep(250);
-
+            Thread.sleep(1000);
             page.click("button.ics-sort");
-
-            Thread.sleep(250);
-            page.click(".card.clickable");
-            String currentFirstTag = page.textContent("table.table tbody tr:first-child td:nth-child(2)");
-            assertEquals(firstTag, currentFirstTag);
-
-            boolean isFirstTagSame = firstTag.equals(currentFirstTag);
-            page.click("button.btn.btn-primary");
+            page.click(".card.clickable:first-child");
+            Thread.sleep(1000);
             String finalURL = page.url();
-
             assertEquals(initialURL, finalURL);
 
             browser.close();

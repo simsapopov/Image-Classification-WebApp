@@ -9,7 +9,7 @@
       <ng-container *ngIf="!imageNotFound">
         <img [src]="image?.imgurlUrl" alt="Image" style="width: 33%" />
         <h3>{{ image?.message }}:</h3>
-        <button class="btn btn-primary" (click)="replaceTags()">
+        <button class="btn btn-primary" id="remakeTags" (click)="replaceTags()">
           Remake Tags
         </button>
         <table class="table">
