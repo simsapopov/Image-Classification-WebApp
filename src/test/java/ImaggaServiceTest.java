@@ -1,5 +1,5 @@
-import com.example.ics.reposittory.ImagesRepository;
-import com.example.ics.reposittory.TagRepository;
+import com.example.ics.repository.ImageRepository;
+import com.example.ics.repository.TagRepository;
 import com.example.ics.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
@@ -15,10 +15,10 @@ class ImaggaServiceTest {
     private TagService tagService;
 
     @Mock
-    private ImagesService imagesService;
+    private ImageService imageService;
 
     @Mock
-    private ImagesRepository imagesRepository;
+    private ImageRepository imageRepository;
 
     @Mock
     private TagRepository tagRepository;

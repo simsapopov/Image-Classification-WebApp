@@ -1,0 +1,16 @@
+E:\ics\src\main\java\com\example\ics\controller\ImageClassificationController.java
+E:\ics\src\main\java\com\example\ics\entity\Tag.java
+E:\ics\src\main\java\com\example\ics\service\ImageService.java
+E:\ics\src\main\java\com\example\ics\service\ImaggaService.java
+E:\ics\src\main\java\com\example\ics\service\TagService.java
+E:\ics\src\main\java\com\example\ics\service\ThrottleService.java
+E:\ics\src\main\java\com\example\ics\IcsApplication.java
+E:\ics\src\main\java\com\example\ics\service\CheckSum.java
+E:\ics\src\main\java\com\example\ics\service\ImgurService.java
+E:\ics\src\main\java\com\example\ics\repository\TagRepository.java
+E:\ics\src\main\java\com\example\ics\service\ClarifaiService.java
+E:\ics\src\main\java\com\example\ics\controller\ImagesController.java
+E:\ics\src\main\java\com\example\ics\entity\Image.java
+E:\ics\src\main\java\com\example\ics\repository\ImageRepository.java
+E:\ics\src\main\java\com\example\ics\CORSConfig.java
+E:\ics\src\main\java\com\example\ics\service\JsonParser.java

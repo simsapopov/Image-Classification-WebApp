@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "IMAGE")
-public class Images implements Serializable {
+public class Image implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)

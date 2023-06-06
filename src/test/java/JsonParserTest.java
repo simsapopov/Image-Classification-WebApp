@@ -1,8 +1,8 @@
-import com.example.ics.entity.Images;
+import com.example.ics.entity.Image;
 import com.example.ics.entity.Tag;
-import com.example.ics.reposittory.ImagesRepository;
-import com.example.ics.reposittory.TagRepository;
-import com.example.ics.service.ImagesService;
+import com.example.ics.repository.ImageRepository;
+import com.example.ics.repository.TagRepository;
+import com.example.ics.service.ImageService;
 import com.example.ics.service.JsonParser;
 import com.example.ics.service.TagService;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,10 +23,10 @@ class JsonParserTest {
     private TagRepository tagRepository;
 
     @Mock
-    private ImagesRepository imagesRepository;
+    private ImageRepository imageRepository;
 
     @Mock
-    private ImagesService imagesService;
+    private ImageService imageService;
 
     @Mock
     private TagService tagService;
@@ -34,16 +34,16 @@ class JsonParserTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        jsonParser = new JsonParser(imagesService );
+        jsonParser = new JsonParser(imageService);
     }
 
     @Test
     void testParseTagsToList() {
         String jsonResponse = "{\"result\":{\"tags\":[{\"tag\":{\"en\":\"nature\"},\"confidence\":90.5},{\"tag\":{\"en\":\"landscape\"},\"confidence\":80.2},{\"tag\":{\"en\":\"mountain\"},\"confidence\":70.8}]}}";
         String url = "image1.jpg";
-        Images image = new Images();
+        Image image = new Image();
         image.setUrl(url);
-        when(imagesService.findImageByUrl(url)).thenReturn(image);
+        when(imageService.findImageByUrl(url)).thenReturn(image);
 
         List<Tag> expectedTags = new ArrayList<>();
         expectedTags.add(createTag("nature", 90.5, image));
@@ -57,7 +57,7 @@ class JsonParserTest {
         assertEquals(expectedTags.get(2).getTag(), actualTags.get(2).getTag());
     }
 
-    private Tag createTag(String tag, double confidence, Images image) {
+    private Tag createTag(String tag, double confidence, Image image) {
         Tag newTag = new Tag();
         newTag.setTag(tag);
         newTag.setConfidencePercentage(confidence);

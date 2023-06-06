@@ -4,11 +4,12 @@ import com.clarifai.channel.ClarifaiChannel;
 import com.clarifai.credentials.ClarifaiCallCredentials;
 import com.clarifai.grpc.api.*;
 import com.clarifai.grpc.api.status.StatusCode;
-import com.example.ics.entity.Images;
+import com.example.ics.entity.Image;
 import com.example.ics.entity.Tag;
-import com.example.ics.reposittory.ImagesRepository;
+import com.example.ics.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,26 +18,28 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ClarifaiService {
-    private final ImagesService imagesService;
+    private final ImageService imageService;
     private final TagService tagService;
     private final ImgurService imgurService;
-    private final ImagesRepository imagesRepository;
+    private final ImageRepository imageRepository;
     private final ThrottleService throttleService;
     private final CheckSum checkSum;
+    @Value("${CLARIFAI_KEY}")
+    private String apiKey;
 
     public String classifyImageWithClarifai(String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
 
         String imageUrl = jsonObject.getString("imageUrl");
         String imageHash = checkSum.getChecksum(imageUrl);
-        Images image = imagesRepository.findByHash(imageHash);
+        Image image = imageRepository.findByHash(imageHash);
         if (image != null) {
 
             return image.getId().toString();
 
         }
         String ImgurUrl = imgurService.uploadImage(imageUrl);
-        image = imagesService.findImageByUrl(imageUrl);
+        image = imageService.findImageByUrl(imageUrl);
         if (image != null) {
 
             return image.getId().toString();
@@ -47,19 +50,19 @@ public class ClarifaiService {
             return "Rate limit exceeded. Please try again later.";
         }
 
-        image = imagesService.saveImage(ImgurUrl, imageUrl, imageHash);
+        image = imageService.saveImage(ImgurUrl, imageUrl, imageHash);
         List<Tag> tagList = getTagsListClarifai(image);
         tagService.addTags(tagList, image);
         image.setTags(tagList);
-        imagesRepository.saveAndFlush(image);
+        imageRepository.saveAndFlush(image);
         return image.getId().toString();
 
     }
 
-    public List<Tag> getTagsListClarifai(Images image) {
+    public List<Tag> getTagsListClarifai(Image image) {
         image.setName("Clarifai");
         V2Grpc.V2BlockingStub stub = V2Grpc.newBlockingStub(ClarifaiChannel.INSTANCE.getGrpcChannel())
-                .withCallCredentials(new ClarifaiCallCredentials("edc51e099d9f405e8d0ee69b1aa1ee57"));
+                .withCallCredentials(new ClarifaiCallCredentials(apiKey));
         MultiOutputResponse postModelOutputsResponse = stub.postModelOutputs(
                 PostModelOutputsRequest.newBuilder()
                         .setUserAppId(UserAppIDSet.newBuilder().setUserId("clarifai").setAppId("main"))
@@ -67,7 +70,7 @@ public class ClarifaiService {
                         .addInputs(
                                 Input.newBuilder().setData(
                                         Data.newBuilder().setImage(
-                                                Image.newBuilder().setUrl(image.getImgurlUrl())
+                                                com.clarifai.grpc.api.Image.newBuilder().setUrl(image.getImgurlUrl())
                                         )
                                 )
                         )

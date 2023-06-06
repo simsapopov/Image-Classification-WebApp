@@ -1,7 +1,7 @@
 package com.example.ics.service;
 
-import com.example.ics.entity.Images;
-import com.example.ics.reposittory.ImagesRepository;
+import com.example.ics.entity.Image;
+import com.example.ics.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,39 +15,39 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ImagesService {
-    private final ImagesRepository imagesRepository;
+public class ImageService {
+    private final ImageRepository imageRepository;
     private final TagService tagService;
 
-    public List<Images> getAllImages() {
-        return imagesRepository.findAll();
+    public List<Image> getAllImages() {
+        return imageRepository.findAll();
     }
 
-    public Page<Images> getAllImagesPage(Integer pageNo, Integer pageSize, String direction) {
+    public Page<Image> getAllImagesPage(Integer pageNo, Integer pageSize, String direction) {
         Sort sort = direction.equalsIgnoreCase("asc") ? Sort.by("analyzedAt").ascending() : Sort.by("analyzedAt").descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        return imagesRepository.findAll(pageable);
+        return imageRepository.findAll(pageable);
     }
 
-    public Page<Images> getAllImagesByTag(String tagName, Integer pageNo, Integer pageSize, String direction) {
+    public Page<Image> getAllImagesByTag(String tagName, Integer pageNo, Integer pageSize, String direction) {
         Sort sort = direction.equalsIgnoreCase("asc") ? Sort.by("analyzedAt").ascending() : Sort.by("analyzedAt").descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        return imagesRepository.findAllByTagName(tagName, pageable);
+        return imageRepository.findAllByTagName(tagName, pageable);
     }
 
-    public Images getImageFromId(Long id) {
+    public Image getImageFromId(Long id) {
         if (id != null) {
-            return imagesRepository.findById(id).orElse(null);
+            return imageRepository.findById(id).orElse(null);
         }
         return null;
     }
 
-    public List<Images> getAllImagesWithIdList(List<Long> id) {
-        List<Images> images = new ArrayList<>();
+    public List<Image> getAllImagesWithIdList(List<Long> id) {
+        List<Image> images = new ArrayList<>();
         if (id != null) {
             for (Long imageId : id) {
                 if (imageId != null) {
-                    Images image = getImageFromId(imageId);
+                    Image image = getImageFromId(imageId);
                     if (image != null) {
                         images.add(image);
                     }
@@ -60,7 +60,7 @@ public class ImagesService {
     public String getAllImagesWithTags(String tag) {
 
         StringBuilder string = new StringBuilder();
-        List<Images> listImages = getAllImagesWithIdList(tagService.findAllImagesWithTag(tag));
+        List<Image> listImages = getAllImagesWithIdList(tagService.findAllImagesWithTag(tag));
         for (int i = 0; i < listImages.size(); i++) {
             string.append(listImages.get(i).getUrl());
             string.append(" Tags:");
@@ -71,34 +71,34 @@ public class ImagesService {
     }
 
     public String getMessege(Long id) {
-        Images image = imagesRepository.findById(id).get();
+        Image image = imageRepository.findById(id).get();
         return "This image was processed on: " + image.getAnalyzedAt() + " by " + image.getName();
     }
 
-    public Images findImageByUrl(String Url) {
-        Images imageFromUrl = imagesRepository.findByUrl(Url);
+    public Image findImageByUrl(String Url) {
+        Image imageFromUrl = imageRepository.findByUrl(Url);
         if (imageFromUrl != null) {
             return imageFromUrl;
         }
-        return imagesRepository.findByImgurlUrl(Url);
+        return imageRepository.findByImgurlUrl(Url);
 
     }
 
-    public Images saveImage(String Imgururl, String imageUrl, String hash) {
-        Images newImage = new Images();
+    public Image saveImage(String Imgururl, String imageUrl, String hash) {
+        Image newImage = new Image();
         if (!imageUrl.contains("http")) {
             newImage.setUrl(Imgururl);
         } else newImage.setUrl(imageUrl);
         newImage.setImgurlUrl(Imgururl);
         newImage.setHash(hash);
         newImage.setAnalyzedAt(new Date());
-        this.imagesRepository.saveAndFlush(newImage);
+        this.imageRepository.saveAndFlush(newImage);
         return newImage;
 
     }
 
     public String deleteImageWithId(Long Id) {
-        imagesRepository.deleteById(Id);
+        imageRepository.deleteById(Id);
         return "Deleted";
     }
 

@@ -1,8 +1,8 @@
 package com.example.ics.service;
 
-import com.example.ics.entity.Images;
+import com.example.ics.entity.Image;
 import com.example.ics.entity.Tag;
-import com.example.ics.reposittory.TagRepository;
+import com.example.ics.repository.TagRepository;
 import com.google.gson.Gson;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -23,7 +23,7 @@ public class TagService {
         return tagRepository.findByImage_id(Id);
     }
 
-    public void addTags(List<Tag> tags, Images image) {
+    public void addTags(List<Tag> tags, Image image) {
         for (int i = 0; i < tags.size(); i++) {
             tagRepository.save(tags.get(i));
         }

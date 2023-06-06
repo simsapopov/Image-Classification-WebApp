@@ -9,11 +9,11 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class CheckSum {
-    public String getChecksum(String url) {
-        if (url.contains("http")) {
+    public String getChecksum(String input) {
+        if (input.contains("http")) {
             try {
                 RestTemplate restTemplate = new RestTemplate();
-                ResponseEntity<byte[]> response = restTemplate.getForEntity(url, byte[].class);
+                ResponseEntity<byte[]> response = restTemplate.getForEntity(input, byte[].class);
                 byte[] imageBytes = response.getBody();
                 if (imageBytes != null) {
                     String checksum = DigestUtils.sha256Hex(imageBytes);
@@ -25,7 +25,7 @@ public class CheckSum {
             return null;
         }
         try {
-            byte[] imageBytes = Base64.decodeBase64(url);
+            byte[] imageBytes = Base64.decodeBase64(input);
             String checksum = DigestUtils.sha256Hex(imageBytes);
             return checksum;
         } catch (Exception e) {

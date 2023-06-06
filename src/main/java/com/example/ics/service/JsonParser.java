@@ -1,6 +1,6 @@
 package com.example.ics.service;
 
-import com.example.ics.entity.Images;
+import com.example.ics.entity.Image;
 import com.example.ics.entity.Tag;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class JsonParser {
-    private final ImagesService imageService;
+    private final ImageService imageService;
 
 
     public List<Tag> parseTagsToList(String jsonResponse, String url) {
@@ -25,7 +25,7 @@ public class JsonParser {
         JsonObject jsonObject = gson.fromJson(jsonResponse, JsonObject.class);
         JsonArray tagsArray = jsonObject.getAsJsonObject("result").getAsJsonArray("tags");
         List<Tag> tagList = new ArrayList<>();
-        Images image = imageService.findImageByUrl(url);
+        Image image = imageService.findImageByUrl(url);
         int i = 0;
         while (i < tagsArray.size()) {
             JsonObject tagObject = tagsArray.get(i).getAsJsonObject();

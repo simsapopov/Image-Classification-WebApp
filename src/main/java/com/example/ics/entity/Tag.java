@@ -31,7 +31,7 @@ public class Tag implements Serializable {
     @JsonBackReference
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     @Setter
-    private Images image;
+    private Image image;
 
     public Tag() {
     }

@@ -1,8 +1,8 @@
 package com.example.ics.service;
 
-import com.example.ics.entity.Images;
+import com.example.ics.entity.Image;
 import com.example.ics.entity.Tag;
-import com.example.ics.reposittory.ImagesRepository;
+import com.example.ics.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,15 +19,16 @@ public class ImaggaService {
     private final ThrottleService throttleService;
     private final ImgurService imgurService;
     private final TagService tagService;
-    private final ImagesService imagesService;
-    private final ImagesRepository imagesRepository;
+    private final ImageService imageService;
+    private final ImageRepository imageRepository;
     private final JsonParser jsonParser;
     private final CheckSum checkSum;
 
-    @Value("${imagga.api.key}")
+    @Value("${IMAGGA_KEY}")
     private String apiKey;
 
-    @Value("${imagga.api.secret}")
+
+    @Value("${IMAGGA_SECRET}")
     private String apiSecret;
 
     public String classifyImageWithImagga(String jsonString) throws Exception {
@@ -35,12 +36,12 @@ public class ImaggaService {
         System.out.println(jsonObject);
         String imageUrl = jsonObject.getString("imageUrl");
         String imageHash = checkSum.getChecksum(imageUrl);
-        Images image = imagesRepository.findByHash(imageHash);
+        Image image = imageRepository.findByHash(imageHash);
         if (image != null) {
 
             return image.getId().toString();
         }
-        image = imagesService.findImageByUrl(imageUrl);
+        image = imageService.findImageByUrl(imageUrl);
         if (image != null) {
 
             return image.getId().toString();
@@ -50,7 +51,7 @@ public class ImaggaService {
         if (throttleService.shouldThrottle()) {
             return "Rate limit exceeded. Please try again later.";
         }
-        image = imagesService.saveImage(ImgurUrl, imageUrl, imageHash);
+        image = imageService.saveImage(ImgurUrl, imageUrl, imageHash);
         List<Tag> tagList = new ArrayList<>();
         try {
             tagList = getTagsListImagga(image);
@@ -60,11 +61,11 @@ public class ImaggaService {
 
         tagService.addTags(tagList, image);
         image.setTags(tagList);
-        imagesRepository.saveAndFlush(image);
+        imageRepository.saveAndFlush(image);
         return image.getId().toString();
     }
 
-    public List<Tag> getTagsListImagga(Images image) throws Exception {
+    public List<Tag> getTagsListImagga(Image image) throws Exception {
         image.setName("Imagga");
         RestTemplate restTemplate = new RestTemplate();
         String ImgurUrl = image.getImgurlUrl();

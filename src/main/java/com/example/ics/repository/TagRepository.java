@@ -1,4 +1,4 @@
-package com.example.ics.reposittory;
+package com.example.ics.repository;
 
 import com.example.ics.entity.Tag;
 import jakarta.transaction.Transactional;

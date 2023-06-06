@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 @Service
 @RequiredArgsConstructor
 public class ImgurService {
-    @Value("${umgur.cliend.id}")
+    @Value("${IMGUR_CLIENT}")
     private String ClientId;
     private final JsonParser jsonParser;
 
