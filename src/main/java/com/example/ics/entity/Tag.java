@@ -33,7 +33,6 @@ public class Tag implements Serializable {
     @Setter
     private Image image;
 
-    public Tag() {
-    }
+
 
 }

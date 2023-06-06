@@ -11,7 +11,6 @@ public class ThrottleService {
     public RateLimiter rateLimiter = RateLimiter.create(1000/3600.0);
 
     public boolean shouldThrottle() {
-        System.out.println(rateLimiter);
         return !rateLimiter.tryAcquire();
     }
 }

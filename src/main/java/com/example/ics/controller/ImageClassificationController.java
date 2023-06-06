@@ -89,16 +89,6 @@ public class ImageClassificationController {
 
     }
 
-    @DeleteMapping("/images/{id}")
-    public ResponseEntity<String> deleteWithID(@PathVariable Integer id) {
-        tagService.deleteTagsWithId(Long.valueOf(id));
-        String a = imageService.deleteImageWithId(Long.valueOf(id));
-        if (a != null) {
-            return ResponseEntity.ok(a);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     @GetMapping("/images/{id}/tags")
     public ResponseEntity<List<Tag>> getImageWithTags(@PathVariable Integer id) {

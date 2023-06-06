@@ -33,7 +33,6 @@ public class ImaggaService {
 
     public String classifyImageWithImagga(String jsonString) throws Exception {
         JSONObject jsonObject = new JSONObject(jsonString);
-        System.out.println(jsonObject);
         String imageUrl = jsonObject.getString("imageUrl");
         String imageHash = checkSum.getChecksum(imageUrl);
         Image image = imageRepository.findByHash(imageHash);
