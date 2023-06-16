@@ -22,7 +22,6 @@ This web application, built with Spring Web and Angular, provides an easy way to
    
 # ICS App Setup Guide
 
-![My Remote Image](https://i.imgur.com/kK21Uub.jpeg)
 This guide will walk you through the steps to start the ICS (Image Classification System) application, which is a Spring app with an Angular frontend. Before proceeding, make sure you have the following prerequisites installed on your system:
 
 Java Development Kit (JDK)
@@ -401,7 +400,7 @@ There isn't image with this id
 ]
 
 
-
+ ```
 ## App demo Screenshot
 ### Classify page
 Welcome to our main page!
