@@ -8,6 +8,7 @@ This web application, built with Spring Web and Angular, provides an easy way to
   - [Classify](#classify)
   - [Get all unique tags](#get-all-unique-tags)
   - [Get image information](#get-image-information)
+      - [Get image information](#get-image-information)
   - [Replace tags](#replace-tags)
   - [Get photos with given tag](#get-photos-with-given-tag)
 # ICS App Setup Guide
