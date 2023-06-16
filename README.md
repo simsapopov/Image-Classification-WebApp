@@ -4,6 +4,8 @@ This web application, built with Spring Web and Angular, provides an easy way to
 ## Table of Contents
 - [Short Description](#short-description)
 - [ICS App Setup Guide](#ics-app-setup-guide)
+  - [Installation](#Installation)
+  - [Running the Application](#Running-the-Application)
 - [API Reference](#api-reference)
   - [Classify](#classify)
   - [Get gallery page](#Get-image-page)
@@ -16,6 +18,7 @@ This web application, built with Spring Web and Angular, provides an easy way to
   - [Get photos with given tag](#get-photos-with-given-tag)
 # ICS App Setup Guide
 
+![My Remote Image](https://imgur.com/kK21Uub)
 This guide will walk you through the steps to start the ICS (Image Classification System) application, which is a Spring app with an Angular frontend. Before proceeding, make sure you have the following prerequisites installed on your system:
 
 Java Development Kit (JDK)
