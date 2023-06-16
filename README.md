@@ -105,6 +105,107 @@ The API response will be a raw string representing an integer value. The respons
 
 - If the photo was not classified yet, the response will be the ID of the newly classified photo.
 - If the photo was already classified, the response will be the ID of the previously classified photo.
+#### Get image page
+
+
+
+```http
+  GET api/v2/all
+```
+
+| Key | Type     | Default value|
+| :-------- | :------- | :------------------------- |
+| `pageNo` | `int` | 1 |
+| `pageSize` | `int` | 10 |
+| `direction` | `String` | "asc" |
+| `tag` | `String` | The param is not Required. It can be a whole tag or a prefix of tag |
+
+#### Response format for api/v2/all?pageNo=1&pageSize=3&direction=asc&tag=car
+The answer have info
+- Total pages for this size.
+- Current page.
+- Number of elements.
+- The sorting of the elements is based on the analyzed date.
+- Is result empty.
+- Tag filter.
+
+
+```json
+{
+    "content": [
+        {
+        "id": 11,
+        "tags": [
+            {
+                "id": 158,
+                "tag": "patio",
+                "confidencePercentage": 87.5628890991211
+            },
+            {
+                "id": 159,
+                "tag": "area",
+                "confidencePercentage": 69.8299407958984
+            },
+            ...
+            // Rest of the response example
+        ],
+        "name": "Imagga",
+        "url": "https://i.imgur.com/hXKwYCE.jpg",
+        "imgurlUrl": "https://i.imgur.com/JeAVWW0.jpg",
+        "analyzedAt": "2023-06-06T13:24:15.837+00:00",
+        "hash": "223bbf772c76b0fdf0cafbf7c01533b557547f2ac5eb75f92d73c8d069e06904"
+    },
+    {
+        "id": 13,
+        "tags": [
+            {
+                "id": 196,
+                "tag": "building",
+                "confidencePercentage": 100.0
+            },
+            ...
+            // Rest of the response example
+        ],
+        "name": "Imagga",
+        "url": "https://i.imgur.com/wkSNSkL.jpg",
+        "imgurlUrl": "https://i.imgur.com/m55FusL.jpg",
+        "analyzedAt": "2023-06-06T13:24:25.240+00:00",
+        "hash": "fc9e6a7fb35429f52f4789dd2ad0a1b892e17b765d0f23312460c954db4cc98f"
+    },
+    {
+    ...
+    // Rest of the response example
+    }
+    
+    ]
+     "pageable": {
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "offset": 3,
+        "pageNumber": 1,
+        "pageSize": 3,
+        "paged": true,
+        "unpaged": false
+    },
+    "totalPages": 3,
+    "totalElements": 9,
+    "last": false,
+    "size": 3,
+    "number": 1,
+    "sort": {
+        "empty": false,
+        "sorted": true,
+        "unsorted": false
+    },
+    "numberOfElements": 3,
+    "first": false,
+    "empty": false
+}
+
+```
 
 ## Get all unique tags
 
