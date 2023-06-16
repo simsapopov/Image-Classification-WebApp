@@ -226,3 +226,53 @@ There isn't image with this id
   ],
   ```
 ## Get photos with given tag
+
+```http
+  Get /api/v2/{tag}
+  ```
+ #### Response Format 
+  ```json
+[
+    {
+        "id": 11,
+        "tags": [
+            {
+                "id": 158,
+                "tag": "patio",
+                "confidencePercentage": 87.5628890991211
+            },
+            {
+                "id": 159,
+                "tag": "area",
+                "confidencePercentage": 69.8299407958984
+            },
+            ...
+            // Rest of the response example
+        ],
+        "name": "Imagga",
+        "url": "https://i.imgur.com/hXKwYCE.jpg",
+        "imgurlUrl": "https://i.imgur.com/JeAVWW0.jpg",
+        "analyzedAt": "2023-06-06T13:24:15.837+00:00",
+        "hash": "223bbf772c76b0fdf0cafbf7c01533b557547f2ac5eb75f92d73c8d069e06904"
+    },
+    {
+        "id": 13,
+        "tags": [
+            {
+                "id": 196,
+                "tag": "building",
+                "confidencePercentage": 100.0
+            },
+            ...
+            // Rest of the response example
+        ],
+        "name": "Imagga",
+        "url": "https://i.imgur.com/wkSNSkL.jpg",
+        "imgurlUrl": "https://i.imgur.com/m55FusL.jpg",
+        "analyzedAt": "2023-06-06T13:24:25.240+00:00",
+        "hash": "fc9e6a7fb35429f52f4789dd2ad0a1b892e17b765d0f23312460c954db4cc98f"
+    },
+    ...
+    // Rest of the response example
+]
+
