@@ -6,9 +6,12 @@ This web application, built with Spring Web and Angular, provides an easy way to
 - [ICS App Setup Guide](#ics-app-setup-guide)
 - [API Reference](#api-reference)
   - [Classify](#classify)
+  - [Get gallery page](#Get-image-page)
   - [Get all unique tags](#get-all-unique-tags)
   - [Get image information](#get-image-information)
-      - [Get image information](#get-image-information)
+      - [Get all information](#Get-all-information)
+      - [Get image message](#Get-image-message)
+      - [Get image message](#Get-the-only-the-image-tags)
   - [Replace tags](#replace-tags)
   - [Get photos with given tag](#get-photos-with-given-tag)
 # ICS App Setup Guide
@@ -276,7 +279,7 @@ The response will be in the following format:
   ```text
  This image was processed on: 2023-06-16 16:58:03.948 by Clarifai
   ```
- ### Or get the only the image tags 
+ ### Get the only the image tags 
 ```http
   Get /api/v2/images/{id}/tags
   ```
