@@ -77,3 +77,152 @@ The Angular development server will start on the default port (usually 4200).
 Open your web browser and visit http://localhost:4200 (or the port specified by Angular if you modified it).
 
 You should now be able to use the ICS application and perform image classification tasks.
+# API Reference
+
+## Classify
+
+```http
+  Post /api/v2/classify/imagga
+  ```
+  or clarifai if you want the clarifai service
+  ```http
+  Post /api/v2/classify/clarifai
+```
+
+#### Request Payload: Where $input is the img URL or Byte64 formatted img data
+```json
+  {
+  "imageurl": "{input}"
+  }
+```
+#### Response Format 
+The API response will be a raw string representing an integer value. The response can be interpreted as follows:
+
+- If the photo was not classified yet, the response will be the ID of the newly classified photo.
+- If the photo was already classified, the response will be the ID of the previously classified photo.
+
+## Get all unique tags
+
+```http
+  Get /api/v2/getUniqueTags
+  ```
+
+#### Response Format 
+The API response will be a list of all unique tags like
+[
+    "happy",
+    "church",
+    "ocean"]
+
+
+## Get image information
+ ### Get all information
+
+```http
+  Get /api/v2/images/{id}
+  ```
+Replace {id} in the endpoint with the actual ID of the desired photo.
+### Response Format 
+The response will be in the following format:
+
+```json
+ {
+  "id": 4,
+  "tags": [
+    {
+      "id": 42,
+      "tag": "car",
+      "confidencePercentage": 100.0
+    },
+    {
+      "id": 43,
+      "tag": "motor vehicle",
+      "confidencePercentage": 96.5658493041992
+    },
+    {
+      "id": 44,
+      "tag": "coupe",
+      "confidencePercentage": 91.2214736938477
+    },
+    ...
+    // More tags
+  ],
+  "name": "Imagga",
+  "url": "https://i.imgur.com/kK21Uub.jpg",
+  "imgurlUrl": "https://i.imgur.com/pF7okqQ.jpg",
+  "analyzedAt": "2023-06-06T13:23:08.525+00:00",
+  "hash": "2c3e0bb148c976e596bbe93f56030385f1e00f3b414597ccf223586f4fbfcd23"
+}
+  ```
+ ### Get image message
+```http
+  Get /api/v2/message/{id}
+  ```
+  #### Response Format 
+  ```text
+ This image was processed on: 2023-06-16 16:58:03.948 by Clarifai
+  ```
+ ### Or get the only the image tags 
+```http
+  Get /api/v2/images/{id}/tags
+  ```
+  ```json
+ {
+ 
+  "tags": [
+    {
+      "id": 42,
+      "tag": "car",
+      "confidencePercentage": 100.0
+    },
+    {
+      "id": 43,
+      "tag": "motor vehicle",
+      "confidencePercentage": 96.5658493041992
+    },
+    {
+      "id": 44,
+      "tag": "coupe",
+      "confidencePercentage": 91.2214736938477
+    },
+    ...
+    // More tags
+  ],
+  ```
+
+  ## Replace tags
+  ```http
+  Get /api/v2/replacetags/{id}
+  ```
+  Where {id} is the photo id.
+  It will delete the photo's tags and use the other classify service to make new tags
+  #### Response Format 
+If there is no photo the response will be 
+  ```json
+There isn't image with this id
+  ```
+  Otherwise 
+  ```json
+ {
+ 
+  "tags": [
+    {
+      "id": 42,
+      "tag": "car",
+      "confidencePercentage": 100.0
+    },
+    {
+      "id": 43,
+      "tag": "motor vehicle",
+      "confidencePercentage": 96.5658493041992
+    },
+    {
+      "id": 44,
+      "tag": "coupe",
+      "confidencePercentage": 91.2214736938477
+    },
+    ...
+    // More tags
+  ],
+  ```
+## Get photos with given tag
