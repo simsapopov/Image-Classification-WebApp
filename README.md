@@ -1,8 +1,25 @@
 # Image Classification Service webapp 
 ## Short description
 This web application, built with Spring Web and Angular, provides an easy way to classify images using a given URL or by uploading a file. Before the classification process, each image is uploaded to Imgur. The application offers a paginated gallery displaying 10 images, sorted by the date of analysis. The sorting order can be customized, and users can also apply filters by entering complete or partial tags in the input text. Additionally, the top five tags for each image are displayed, allowing users to filter by clicking on any of those tags. Upon classification, users are redirected to the image view page for the analyzed image. Similarly, clicking on an image from the gallery will redirect users to the image view page for that specific image.
-
-
+## Table of Contents
+- [Short Description](#short-description)
+- [ICS App Setup Guide](#ics-app-setup-guide)
+  - [Installation](#Installation)
+  - [Running the Application](#Running-the-Application)
+- [API Reference](#api-reference)
+  - [Classify](#classify)
+  - [Get gallery page](#Get-image-page)
+  - [Get all unique tags](#get-all-unique-tags)
+  - [Get image information](#get-image-information)
+      - [Get all information](#Get-all-information)
+      - [Get image message](#Get-image-message)
+      - [Get image message](#Get-the-only-the-image-tags)
+  - [Replace tags](#replace-tags)
+  - [Get photos with given tag](#get-photos-with-given-tag)
+- [App demo with screenshots](#App-demo-Screenshots)
+  - [Classify page](#Classify-page)
+  - [Image view page](#Image-view-page)
+   
 # ICS App Setup Guide
 
 This guide will walk you through the steps to start the ICS (Image Classification System) application, which is a Spring app with an Angular frontend. Before proceeding, make sure you have the following prerequisites installed on your system:
@@ -268,7 +285,7 @@ The response will be in the following format:
   ```text
  This image was processed on: 2023-06-16 16:58:03.948 by Clarifai
   ```
- ### Or get the only the image tags 
+ ### Get the only the image tags 
 ```http
   Get /api/v2/images/{id}/tags
   ```
@@ -382,3 +399,43 @@ There isn't image with this id
     // Rest of the response example
 ]
 
+
+ ```
+## App demo Screenshot
+### Classify page
+Welcome to our main page!
+
+Here, you will find a user-friendly interface designed to facilitate image classification tasks. Let's explore the available options:
+
+- In the first dropdown menu, we provide two choices for the third-party image classification service. You can select either Imagga or Clarifai, depending on your preference and requirements. These services offer powerful image analysis capabilities to accurately classify and annotate images.
+
+- Moving on to the second dropdown menu, it allows you to specify the input format for the image you wish to classify. You have two options: either provide the image URL directly or upload a file from your local machine. This flexibility ensures that you can conveniently use images from various sources for classification.
+
+Before proceeding with the classification process, our system performs a quick search to determine if the image already exists in our database. This search serves multiple purposes, including resource management, cost optimization, and ensuring a gallery with no repeating images.
+
+By checking if the image is already present, we can avoid unnecessary expenses associated with reclassifying identical images. This approach helps us make efficient use of resources and maintain a cost-effective image classification system.
+
+If the image is found in the database, we retrieve the existing classification results, eliminating the need for redundant computations. This way, we can provide you with instant access to the previously classified image, saving both time and computational resources.
+
+On the other hand, if the image is not found in the database, our system proceeds with the classification process. To ensure the long-term availability and reliability of the image, we upload it to Imgur. This step enhances both flexibility and security, allowing us to access and analyze the image without worrying about it becoming unavailable in the future.
+
+Once the classification process is completed, you are seamlessly redirected to the image view page
+- Dark Theme
+![App Screenshot](https://i.imgur.com/0EtwHP8.jpeg) 
+- Light Theme
+![My Remote Image](https://i.imgur.com/QPmM7ld.jpg)
+
+### Image view page
+
+Welcome to the Image View page!
+This page provides a comprehensive view of the image you selected, along with additional information and functionality to enhance your classification experience. Let's explore the various elements and features available:
+
+- At the center of the page, the image you selected is  displayed.
+- Just below the image, you will find valuable information about the analysis process. This includes the date and time when the image was analyzed, providing you with a timestamp for reference. Additionally, the name of the classification service used for the analysis is displayed, giving you insights into the technology behind the classification results.
+- To further enhance your experience, we have included a convenient "Remake Tags" button. By clicking on this button, you can trigger a fresh analysis of the image using the alternative classification service. For example, if you initially used Imagga for classification, clicking the "Remake Tags" button will invoke Clarifai for a new analysis. The system will then save and display the updated tags based on the new analysis. This feature allows you to compare the results of different classification services and choose the most accurate and relevant tags for your needs.
+- Continuing below the "Remake Tags" button, you will find a data grid that presents all the tags associated with the image. These tags are accompanied by their respective confidence levels, indicating the level of certainty the classification service has assigned to each tag. To ensure relevancy, only tags with a confidence level of more than 30% are displayed. This filtering helps you focus on the most significant and reliable tags, as those below this threshold may be less relevant to the image.
+- To facilitate easy navigation, we have placed a "Back" button in the upper-left corner, just below the logo. Clicking this button will take you back to the previous page, preserving any filters, sorting, or specific page settings you applied in the gallery. Whether you sorted the images, applied filters, or performed any other actions, returning to the previous page will restore your previous view, ensuring a seamless browsing experience.
+Dark Theme
+![My Remote Image](https://i.imgur.com/2D1H82x.jpg)
+Light Theme
+![My Remote Image](https://i.imgur.com/nZzGKcJ.jpg)
