@@ -2,10 +2,14 @@
 ## Short description
 This web application, built with Spring Web and Angular, provides an easy way to classify images using a given URL or by uploading a file. Before the classification process, each image is uploaded to Imgur. The application offers a paginated gallery displaying 10 images, sorted by the date of analysis. The sorting order can be customized, and users can also apply filters by entering complete or partial tags in the input text. Additionally, the top five tags for each image are displayed, allowing users to filter by clicking on any of those tags. Upon classification, users are redirected to the image view page for the analyzed image. Similarly, clicking on an image from the gallery will redirect users to the image view page for that specific image.
 ## Table of Contents
-- [Short Description](#Get-photos-with-given-tag)
-   - [Short Description](#Get-photos-with-given-tag)
-- [Short Description](#Get-photos-with-given-tag)
-
+- [Short Description](#short-description)
+- [ICS App Setup Guide](#ics-app-setup-guide)
+- [API Reference](#api-reference)
+  - [Classify](#classify)
+  - [Get all unique tags](#get-all-unique-tags)
+  - [Get image information](#get-image-information)
+  - [Replace tags](#replace-tags)
+  - [Get photos with given tag](#get-photos-with-given-tag)
 # ICS App Setup Guide
 
 This guide will walk you through the steps to start the ICS (Image Classification System) application, which is a Spring app with an Angular frontend. Before proceeding, make sure you have the following prerequisites installed on your system:
