@@ -28,7 +28,7 @@ cd ics
 
 - Open the application.properties file located in src/main/resources.
 - Set the following properties based on your environment:
-- server.port: The port on which the Spring server will run. By default, it is set to 8079.
+- server.port: The port on which the Spring server will run.
 - spring.datasource.url: The URL of your PostgreSQL database.
 - spring.datasource.username: The username to access your PostgreSQL database.
 - spring.datasource.password: The password to access your PostgreSQL database.
