@@ -19,7 +19,8 @@ This web application, built with Spring Web and Angular, provides an easy way to
 - [App demo with screenshots](#App-demo-Screenshots)
   - [Classify page](#Classify-page)
   - [Image view page](#Image-view-page)
-   
+  - [Image Gallery page](#Image-Gallery-page)
+  
 # ICS App Setup Guide
 
 This guide will walk you through the steps to start the ICS (Image Classification System) application, which is a Spring app with an Angular frontend. Before proceeding, make sure you have the following prerequisites installed on your system:
@@ -439,3 +440,31 @@ Dark Theme
 ![My Remote Image](https://i.imgur.com/2D1H82x.jpg)
 Light Theme
 ![My Remote Image](https://i.imgur.com/nZzGKcJ.jpg)
+### Image Gallery page
+
+Welcome to our Gallery page!
+
+Here, you will find a collection of images presented in clickable cards, each showcasing a captivating image. Let's explore the features and functionalities of our gallery:
+
+- The images are displayed in interactive cards, allowing you to click on any image to view it in more detail. Each card includes the image itself, giving you a visual preview of its content.
+
+- Below each image, you will find the top five tags associated with it. These tags provide valuable insights into the analyzed attributes of the image. They serve as a summary of the image's content, making it easier for you to identify and explore images of interest.We have also implemented a dynamic search feature to facilitate quick tag-based filtering. At the top of the page, you will find an input field where you can enter either the complete tag or a prefix of the tag you're interested in. The gallery will automatically update and display images that match your entered tag, making it effortless to find images related to specific topics or categories.
+
+- To streamline your browsing experience, we've implemented a filtering system. By clicking on any tag within an image card, you can instantly filter the gallery to display only the images that share that specific tag. This functionality enables you to explore related images and discover visual themes or patterns.
+
+- The gallery is divided into pages, with each page displaying 10 images. You can navigate through the pages using intuitive pagination controls, allowing you to explore a range of classified images at your own pace.
+
+- We offer the option to customize the sorting order of the gallery. By clicking on the sorting options provided, you can easily switch between ascending and descending orders based on the date of analysis. This flexibility ensures that you can organize the images according to your preferences and requirements.
+
+- For added convenience, we provide both light and dark themes for the gallery. You can select your preferred theme with a simple click, allowing you to browse the images in a visually comfortable environment that suits your style.
+
+
+Gallery
+![My Remote Image](https://i.imgur.com/eq48GWX.jpg)
+Filtered Gallery 
+![My Remote Image](https://i.imgur.com/0QZFpCs.jpg)
+Gallery paging
+![My Remote Image](https://i.imgur.com/TiMk9jX.jpg)
+
+
+
